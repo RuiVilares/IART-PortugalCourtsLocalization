@@ -19,7 +19,7 @@ public class Place {
     /**
      * number of people living in
      */
-    private int population;
+    private int citizens;
     /**
      * is there a court
      */
@@ -35,7 +35,7 @@ public class Place {
         this.name = new String(name);
         this.coord_x = coord_x;
         this.coord_y = coord_y;
-        this.population = population;
+        this.citizens = population;
     }
 
     /**
@@ -44,10 +44,6 @@ public class Place {
      * @return distance between two places
      */
     public double dist(Place p) {
-        if (coord_x == p.coord_x && coord_y ==p.coord_y) {
-            return Double.MAX_VALUE;
-        }
-
         double distance = Math.sqrt(Math.pow(coord_x-p.coord_x,2) + Math.pow(coord_y-p.coord_y,2));
 
         return distance;
@@ -55,6 +51,14 @@ public class Place {
 
     @Override
     public String toString() {
-        return name + " court = " + court;
+        return name + " court = " + isCourt();
+    }
+
+    public boolean isCourt() {
+        return court;
+    }
+
+    public int getCitizens() {
+        return citizens;
     }
 }

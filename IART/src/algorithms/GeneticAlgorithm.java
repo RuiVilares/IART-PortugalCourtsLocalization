@@ -10,6 +10,10 @@ import java.util.Vector;
  */
 public class GeneticAlgorithm {
     /**
+     * Maximum distance to the court
+     */
+    private double maxDistance;
+    /**
      * elitist choice
      */
     private boolean elitist = false;
@@ -32,11 +36,11 @@ public class GeneticAlgorithm {
     /**
      * The population is represented with an array of bytes
      */
-    private Vector<Pair<Integer,Vector<Byte> > > population = new Vector<Pair<Integer,Vector<Byte> > >();
+    private Vector<Pair<Integer,Vector<Boolean> > > population = new Vector<Pair<Integer,Vector<Boolean> > >();
     /**
      * Best individual and its score
      */
-    private Pair<Integer,Vector<Byte> > bestIndividual = new Pair(Integer.MIN_VALUE, new Vector<Byte>());
+    private Pair<Integer,Vector<Boolean> > bestIndividual = new Pair(Integer.MIN_VALUE, new Vector<Boolean>());
     /**
      * Heuristic of the algorithm
      */
@@ -47,12 +51,14 @@ public class GeneticAlgorithm {
      * @param locations information about the individuals
      * @param generationSize number of individuals per generation
      * @param iterations number of generations
+     * @param dist maximum distance a citizen can be from the court
      */
-    GeneticAlgorithm(Vector<Place> locations, int generationSize, int iterations) {
+    GeneticAlgorithm(Vector<Place> locations, int generationSize, int iterations, double dist) {
         this.locations = locations;
         this.generationSize = generationSize;
         this.iterations = iterations;
-        heuristic = new Heuristic(locations);
+        maxDistance = dist;
+        heuristic = new Heuristic(locations, dist);
         createInitialPopulation();
     }
 
@@ -62,9 +68,10 @@ public class GeneticAlgorithm {
      * @param bestToPass number of individuals that pass
      * @param generationSize number of individuals per generation
      * @param iterations number of generations
+     * @param dist maximum distance a citizen can be from the court
      */
-    GeneticAlgorithm(Vector<Place> locations, int bestToPass, int generationSize, int iterations) {
-        this(locations, generationSize, iterations);
+    GeneticAlgorithm(Vector<Place> locations, int bestToPass, int generationSize, int iterations, double dist) {
+        this(locations, generationSize, iterations, dist);
         if (bestToPass > locations.size()) {
             System.err.println("Elitist error: best to pass bigger than the population");
             System.exit(-1);
@@ -78,21 +85,22 @@ public class GeneticAlgorithm {
      */
     private void createInitialPopulation() {
         for (int i = 0; i < generationSize; i++) {
-            Vector<Byte> individual = randomIndividual();
-            int score = heuristic.computeScore(individual);
-            population.add(new Pair(score, individual));
+            Vector<Boolean> individual = randomIndividual();
+            population.add(new Pair(Integer.MIN_VALUE, individual));
         }
+
+        heuristic.computeBestAndUpdateScores(population, bestIndividual);
     }
 
     /**
      * Create a random individual
      * @return random individual
      */
-    private Vector<Byte> randomIndividual() {
-        Vector<Byte> individual = new Vector<Byte>();
+    private Vector<Boolean> randomIndividual() {
+        Vector<Boolean> individual = new Vector<Boolean>();
 
         for (int i = 0; i < locations.size(); i++) {
-            individual.add((byte) (Math.random()%2));
+            individual.add((Math.random()%2) == 1);
         }
 
         return individual;
@@ -103,14 +111,17 @@ public class GeneticAlgorithm {
      */
     public void compute() {
         for (int i = 1; i <= iterations; i++) {
-            //selecao
-            //emparalhamento
-            //mutacao
-            //avaliacao
+            //selection();
+
+            //marriage();
+
+            //mutation();
+
+            heuristic.computeBestAndUpdateScores(population, bestIndividual);
         }
     }
 
-    public Vector<Byte> getBestIndividual() {
+    public Vector<Boolean> getBestIndividual() {
         return bestIndividual.getValue();
     }
 
