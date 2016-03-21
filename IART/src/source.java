@@ -1,4 +1,5 @@
 import algorithms.GeneticAlgorithm;
+import algorithms.SimulatedAnnealing;
 import location.Place;
 
 import java.util.Vector;
@@ -10,6 +11,7 @@ public class source {
     public static void main(String[] args) {
         Vector<Place> places = new Vector<Place>();
         //Place(String name, double coord_x, double coord_y, int population)
+        //Best solution given: 4902
         places.add(new Place("Porto", 0, 0, 123));
         places.add(new Place("Lisboa", 1, 2, 234));
         places.add(new Place("Aveiro", 56, 86, 345));
@@ -27,6 +29,20 @@ public class source {
 
         int best = ga.getBestScore();
         places = ga.getBestChoice();
+
+        System.out.println(best);
+        for (Place p : places) {
+            System.out.println(p);
+        }
+
+        //SimulatedAnnealing(Vector<Place> locations, double delta, int dist)
+        SimulatedAnnealing sa = new SimulatedAnnealing(places, 500, 1, 10);
+        //sa.parseLocations();
+        sa.compute();
+
+
+        best = sa.getBestScore();
+        places = sa.getBestChoice();
 
         System.out.println(best);
         for (Place p : places) {
