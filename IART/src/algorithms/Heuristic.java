@@ -3,6 +3,7 @@ package algorithms;
 import javafx.util.Pair;
 import location.Place;
 
+import java.util.Comparator;
 import java.util.Vector;
 
 /**
@@ -69,11 +70,17 @@ public class Heuristic {
         for (int i = 0; i < individual.size(); i++) {
             if (!individual.get(i)) {
                 double minimum = Double.MAX_VALUE;
+                double maximum = -1;
 
                 for (int j = 0; j < individual.size(); j++) {
                     if (i != j && individual.get(j)) {
                         minimum = Math.min(minimum, locations.get(i).dist(locations.get(j)));
+                    } else {
+                        maximum = Math.max(maximum, locations.get(i).dist(locations.get(j)));
                     }
+                }
+                if (minimum == Double.MAX_VALUE) {
+                    minimum = maximum;
                 }
 
                 int avoid = 1;
@@ -126,15 +133,36 @@ public class Heuristic {
     /**
      * Returns the best between the given best so far and the population
      * @param population population of the algorithm
-     * @param bestIndividual best individual so far
+     * @return population scored and sorted
      */
-    public void computeBestAndUpdateScores(Vector<Pair<Integer, Vector<Boolean>>> population, Pair<Integer, Vector<Boolean>> bestIndividual) {
+    public Vector<Pair<Integer,Vector<Boolean> > > computeBestAndUpdateScores(Vector<Pair<Integer, Vector<Boolean>>> population) {
+
         for (int i = 0; i < population.size(); i++) {
             Vector<Boolean> individual = population.elementAt(i).getValue();
             population.set(i, new Pair(computeScore(individual), individual));
-            if (population.get(i).getKey() > bestIndividual.getKey()) {
-                bestIndividual = new Pair(population.get(i).getKey(), population.get(i).getValue().clone());
-            }
         }
+
+        population.sort(new Comparator<Pair<Integer, Vector<Boolean>>>() {
+            @Override
+            public int compare(Pair<Integer, Vector<Boolean>> o1, Pair<Integer, Vector<Boolean>> o2) {
+                return o1.getKey().compareTo(o2.getKey());
+            }
+        });
+
+        return population;
+    }
+
+    /**
+     * Compare an individual with the population
+     * @param population population to compare
+     * @param bestIndividual individual to compare
+     * @return best individual
+     */
+    public Pair<Integer,Vector<Boolean>> getBest(Vector<Pair<Integer, Vector<Boolean>>> population, Pair<Integer, Vector<Boolean>> bestIndividual) {
+        if (population.get(population.size()-1).getKey() > bestIndividual.getKey()) {
+            return population.get(population.size()-1);
+        }
+
+        return bestIndividual;
     }
 }

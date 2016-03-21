@@ -31,7 +31,7 @@ public class Place {
      * @param coord_y coordinate y of the place
      * @param population size of the population
      */
-    Place(String name, double coord_x, double coord_y, int population) {
+    public Place(String name, double coord_x, double coord_y, int population) {
         this.name = new String(name);
         this.coord_x = coord_x;
         this.coord_y = coord_y;
@@ -60,5 +60,9 @@ public class Place {
 
     public int getCitizens() {
         return citizens;
+    }
+
+    public void setCourt(boolean court) {
+        this.court = court;
     }
 }

@@ -14,9 +14,13 @@ public class GeneticAlgorithm {
      */
     private double maxDistance;
     /**
-     * elitist choice
+     * Probability of mutation 0..100
      */
-    private boolean elitist = false;
+    private int pbMutation;
+    /**
+     * Probability of marriage 0..100
+     */
+    private int pbMarriage;
     /**
      * if elitist, then this will represent the number that will pass
      */
@@ -52,11 +56,18 @@ public class GeneticAlgorithm {
      * @param generationSize number of individuals per generation
      * @param iterations number of generations
      * @param dist maximum distance a citizen can be from the court
+     * @param pbMutation probability of mutation
+     * @param pbMarriage probability of marriage
      */
-    GeneticAlgorithm(Vector<Place> locations, int generationSize, int iterations, double dist) {
+    public GeneticAlgorithm(Vector<Place> locations, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage) {
         this.locations = locations;
         this.generationSize = generationSize;
         this.iterations = iterations;
+        this.pbMutation = Math.abs(pbMutation);
+        this.pbMarriage = Math.abs(pbMarriage);
+        if (pbMutation > 100 || pbMarriage > 100) {
+            System.err.println("Probabilities not valid");
+        }
         maxDistance = dist;
         heuristic = new Heuristic(locations, dist);
         createInitialPopulation();
@@ -69,15 +80,15 @@ public class GeneticAlgorithm {
      * @param generationSize number of individuals per generation
      * @param iterations number of generations
      * @param dist maximum distance a citizen can be from the court
+     * @param pbMutation probability of mutation
+     * @param pbMarriage probability of marriage
      */
-    GeneticAlgorithm(Vector<Place> locations, int bestToPass, int generationSize, int iterations, double dist) {
-        this(locations, generationSize, iterations, dist);
+    public GeneticAlgorithm(Vector<Place> locations, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage) {
+        this(locations, generationSize, iterations, dist, pbMutation, pbMarriage);
         if (bestToPass > locations.size()) {
             System.err.println("Elitist error: best to pass bigger than the population");
-            System.exit(-1);
         }
         this.bestToPass = bestToPass;
-        elitist = true;
     }
 
     /**
@@ -89,7 +100,8 @@ public class GeneticAlgorithm {
             population.add(new Pair(Integer.MIN_VALUE, individual));
         }
 
-        heuristic.computeBestAndUpdateScores(population, bestIndividual);
+        population = heuristic.computeBestAndUpdateScores(population);
+        bestIndividual = heuristic.getBest(population, bestIndividual);
     }
 
     /**
@@ -100,7 +112,7 @@ public class GeneticAlgorithm {
         Vector<Boolean> individual = new Vector<Boolean>();
 
         for (int i = 0; i < locations.size(); i++) {
-            individual.add((Math.random()%2) == 1);
+            individual.add(((int) (Math.random()*10) % 2) == 0);
         }
 
         return individual;
@@ -111,14 +123,123 @@ public class GeneticAlgorithm {
      */
     public void compute() {
         for (int i = 1; i <= iterations; i++) {
-            //selection();
+            selection();
 
-            //marriage();
+            marriage();
 
-            //mutation();
+            mutation();
 
-            heuristic.computeBestAndUpdateScores(population, bestIndividual);
+            population = heuristic.computeBestAndUpdateScores(population);
+            bestIndividual = heuristic.getBest(population, bestIndividual);
         }
+    }
+
+    /**
+     * Mutate individuals
+     */
+    private void mutation() {
+        int total = locations.size() * population.size();
+
+        for (int i = 0; i < population.size(); i++) {
+            for (int j = 0; j < locations.size(); j++) {
+                if (pbMutation > (Math.random() * 100)) {
+                    population.get(i).getValue().set(j, !population.get(i).getValue().get(j));
+                }
+            }
+        }
+    }
+
+    /**
+     * Marry individuals
+     */
+    private void marriage() {
+        Vector<Pair<Integer,Vector<Boolean> > > newPopulation = new Vector<Pair<Integer,Vector<Boolean> > >();
+        Vector<Pair<Integer,Vector<Boolean> > > marry = new Vector<Pair<Integer,Vector<Boolean> > >();
+
+        for (int i = 0; i < population.size(); i++) {
+            if (pbMarriage > (Math.random() * 100)) {
+                marry.add(population.get(i));
+            } else {
+                newPopulation.add(population.get(i));
+            }
+        }
+
+        if (marry.size() % 2 != 0) {
+            newPopulation.add(marry.get(0));
+            marry.remove(0);
+        }
+
+        for (int i = 0; i < marry.size(); i+=2) {
+            int cut = (int) ((Math.random()*100) % locations.size());
+            Pair<Integer, Vector<Boolean> > individualA = population.get(i);
+            Pair<Integer, Vector<Boolean> > individualB = population.get(i+1);
+            newPopulation.add(mix(individualA, individualB, cut));
+            newPopulation.add(mix(individualB, individualA, cut));
+        }
+
+        population = newPopulation;
+    }
+
+    /**
+     * Mix two individuals given a cut (the bit number)
+     * @param individualA first individual
+     * @param individualB second individual
+     * @param cut bit number
+     * @return new mixed individual
+     */
+    private Pair<Integer,Vector<Boolean>> mix(Pair<Integer, Vector<Boolean>> individualA, Pair<Integer, Vector<Boolean>> individualB, int cut) {
+        Vector<Boolean> bool = new Vector<Boolean>();
+        for (int i = 0; i < cut; i++) {
+            bool.add(individualA.getValue().get(i));
+        }
+        for (int i = cut; i < locations.size(); i++) {
+            bool.add(individualB.getValue().get(i));
+        }
+
+        return new Pair<Integer,Vector<Boolean>>(Integer.MIN_VALUE, bool);
+    }
+
+    /**
+     * Select a new population
+     */
+    private void selection() {
+        int scoreSum = 0;
+        for (Pair<Integer,Vector<Boolean> > p : population) {
+            scoreSum += p.getKey();
+        }
+
+        Vector<Pair<Integer,Vector<Boolean> > > newPopulation = new Vector<Pair<Integer,Vector<Boolean> > >();
+
+        //add best elements (elitist)
+        for (int i = 1; i <= bestToPass; i++) {
+            newPopulation.add(population.get(population.size()-i));
+        }
+
+        int diff = population.size() - newPopulation.size();
+        //add the rest
+        for (int i = 0; i < diff; i++) {
+            newPopulation.add(getIndividual(Math.random() * 100, scoreSum));
+        }
+
+        population = newPopulation;
+    }
+
+    /**
+     * Returns an individual given a probability
+     * @param pb probability
+     * @param sum sum of scores
+     * @return selected individual
+     */
+    private Pair<Integer,Vector<Boolean>> getIndividual(double pb, int sum) {
+        double acum = 0;
+        for (Pair<Integer,Vector<Boolean> > p : population) {
+            acum += (p.getKey() / sum);
+            if (pb < acum) {
+                return p;
+            }
+        }
+
+        return population.get(population.size()-1);
     }
 
     public Vector<Boolean> getBestIndividual() {
@@ -127,5 +248,17 @@ public class GeneticAlgorithm {
 
     public int getBestScore() {
         return bestIndividual.getKey();
+    }
+
+    /**
+     * Get the best solution computed
+     * @return best solution
+     */
+    public Vector<Place> getBestChoice() {
+        for (int i = 0; i < locations.size(); i++) {
+            locations.get(i).setCourt(bestIndividual.getValue().get(i));
+        }
+
+        return locations;
     }
 }
