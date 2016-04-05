@@ -234,7 +234,7 @@ public class GeneticAlgorithm {
 
         Vector<Pair<Integer,Vector<Boolean> > > newPopulation = new Vector<Pair<Integer,Vector<Boolean> > >();
 
-        int diff = population.size() - newPopulation.size();
+        int diff = population.size() - elitist.size();
         //add the rest
         for (int i = 0; i < diff; i++) {
             newPopulation.add(getIndividual(Math.random() * 100, scoreSum));
