@@ -1,5 +1,6 @@
 import algorithms.GeneticAlgorithm;
 import algorithms.SimulatedAnnealing;
+import javafx.util.Pair;
 import location.Place;
 
 import java.util.Vector;

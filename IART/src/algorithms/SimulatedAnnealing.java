@@ -103,15 +103,25 @@ public class SimulatedAnnealing {
             bestIndividual = new Pair<Integer,Vector<Boolean> >(heuristic.computeScore(v), v);
         }
 
+        Pair<Integer,Vector<Boolean> > bestInd = bestIndividual;
+
         //to the infinite and beyond
         for (double temperature = 1; temperature < finalTemperature; temperature += delta) {
             Pair<Integer,Vector<Boolean> > individual = random(bestIndividual);
 
             int diff = individual.getKey() - bestIndividual.getKey();
 
+            if (bestInd.getKey() < individual.getKey()) {
+                bestInd = individual;
+            }
+
             if (diff > 0 || Math.exp(diff / temperature) > Math.random()) {
                 bestIndividual = individual;
             }
+        }
+
+        if (bestInd.getKey() > bestIndividual.getKey()) {
+            bestIndividual = bestInd;
         }
     }
 
