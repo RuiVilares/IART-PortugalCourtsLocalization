@@ -39,6 +39,11 @@ public class GeneticAlgorithm {
     private Vector<Place> locations = new Vector<Place>();
     /**
      * The population is represented with an array of bytes
+     * These are the elite individuals
+     */
+    private Vector<Pair<Integer,Vector<Boolean> > > elitist = new Vector<Pair<Integer,Vector<Boolean> > >();
+    /**
+     * The population is represented with an array of bytes
      */
     private Vector<Pair<Integer,Vector<Boolean> > > population = new Vector<Pair<Integer,Vector<Boolean> > >();
     /**
@@ -120,6 +125,8 @@ public class GeneticAlgorithm {
 
     /**
      * Computes a solution using genetic algorithm
+     * Elite individuals pass directly to the next generation without
+     * marriage and mutation
      */
     public void compute() {
         for (int i = 1; i <= iterations; i++) {
@@ -129,8 +136,18 @@ public class GeneticAlgorithm {
 
             mutation();
 
+            addEliteToPopulation();
             population = heuristic.computeBestAndUpdateScores(population);
             bestIndividual = heuristic.getBest(population, bestIndividual);
+        }
+    }
+
+    /**
+     * Add the elite to the rest of the population
+     */
+    private void addEliteToPopulation() {
+        for (Pair<Integer,Vector<Boolean> > p : elitist) {
+            population.add(p);
         }
     }
 
@@ -208,12 +225,14 @@ public class GeneticAlgorithm {
             scoreSum += p.getKey();
         }
 
-        Vector<Pair<Integer,Vector<Boolean> > > newPopulation = new Vector<Pair<Integer,Vector<Boolean> > >();
+        elitist = new Vector<Pair<Integer,Vector<Boolean> > >();
 
         //add best elements (elitist)
         for (int i = 1; i <= bestToPass; i++) {
-            newPopulation.add(population.get(population.size()-i));
+            elitist.add(population.get(population.size()-i));
         }
+
+        Vector<Pair<Integer,Vector<Boolean> > > newPopulation = new Vector<Pair<Integer,Vector<Boolean> > >();
 
         int diff = population.size() - newPopulation.size();
         //add the rest

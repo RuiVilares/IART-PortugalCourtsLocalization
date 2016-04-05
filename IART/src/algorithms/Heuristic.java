@@ -73,10 +73,12 @@ public class Heuristic {
                 double maximum = -1;
 
                 for (int j = 0; j < individual.size(); j++) {
-                    if (i != j && individual.get(j)) {
-                        minimum = Math.min(minimum, locations.get(i).dist(locations.get(j)));
-                    } else {
-                        maximum = Math.max(maximum, locations.get(i).dist(locations.get(j)));
+                    if (i != j) {
+                        if (individual.get(j)) {
+                            minimum = Math.min(minimum, locations.get(i).dist(locations.get(j)));
+                        } else {
+                            maximum = Math.max(maximum, locations.get(i).dist(locations.get(j)));
+                        }
                     }
                 }
                 if (minimum == Double.MAX_VALUE) {
