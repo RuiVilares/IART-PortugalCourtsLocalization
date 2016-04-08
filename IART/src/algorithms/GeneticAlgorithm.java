@@ -225,6 +225,8 @@ public class GeneticAlgorithm {
             scoreSum += p.getKey();
         }
 
+        scoreSum = Math.abs(scoreSum);
+
         elitist = new Vector<Pair<Integer,Vector<Boolean> > >();
 
         //add best elements (elitist)
@@ -250,9 +252,10 @@ public class GeneticAlgorithm {
      * @return selected individual
      */
     private Pair<Integer,Vector<Boolean>> getIndividual(double pb, int sum) {
-        double acum = 0;
+        int acum = 0, individualPb = 0;
         for (Pair<Integer,Vector<Boolean> > p : population) {
-            acum += (p.getKey() / sum);
+            individualPb = Math.abs(p.getKey());
+            acum += ((sum - individualPb) / sum);
             if (pb < acum) {
                 return p;
             }

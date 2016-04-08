@@ -25,7 +25,7 @@ public class source {
 
         //GeneticAlgorithm(Vector<Place> locations, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage)
         //GeneticAlgorithm(Vector<Place> locations, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage)
-        GeneticAlgorithm ga = new GeneticAlgorithm(places, 1, 5, 10, 100, 25, 75 );
+        GeneticAlgorithm ga = new GeneticAlgorithm(places, 1, 30, 10, 100, 25, 75 );
         ga.compute();
 
         int best = ga.getBestScore();
