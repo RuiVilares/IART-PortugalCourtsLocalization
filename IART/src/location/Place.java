@@ -58,6 +58,18 @@ public class Place {
         return court;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public double getCoord_x() {
+        return coord_x;
+    }
+
+    public double getCoord_y() {
+        return coord_y;
+    }
+
     public int getCitizens() {
         return citizens;
     }

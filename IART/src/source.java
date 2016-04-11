@@ -3,13 +3,17 @@ import algorithms.SimulatedAnnealing;
 import javafx.util.Pair;
 import location.Place;
 
+import parser.cityParser;
+
+import java.io.IOException;
 import java.util.Vector;
 
 /**
  * Created by Antonio on 21-03-2016.
  */
 public class source {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        /*
         Vector<Place> places = new Vector<Place>();
         //Place(String name, double coord_x, double coord_y, int population)
         //Best solution given: 4902
@@ -48,6 +52,12 @@ public class source {
         System.out.println(best);
         for (Place p : places) {
             System.out.println(p);
+        }
+        */
+        cityParser parser = new cityParser();
+        Vector<Place> places = parser.getCities();
+        for(int i = 0; i < places.size(); i++) {
+            System.out.println(places.get(i).getName() + " " + places.get(i).getCoord_x() + " " + places.get(i).getCoord_y() + " " + places.get(i).getCitizens());
         }
     }
 }
