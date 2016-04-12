@@ -1,7 +1,6 @@
 package parser;
 
 import javafx.util.Pair;
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import location.Place;
 
 import org.json.JSONArray;
@@ -20,23 +19,68 @@ import java.util.Vector;
 /**
  * Created by Rui on 10/04/2016.
  */
+
+
+/**
+ * Get the name, population, x_coord and y_coord of each Portuguese city.
+ */
 public class cityParser {
 
+    /**
+     * The URL to get the city names and populations.
+     */
     private final String citiesURL = "https://pt.wikipedia.org/wiki/Lista_de_municípios_de_Portugal_por_população";
 
-    //http://nominatim.openstreetmap.org/search?q=Porto, Portugal&format=json
+    /**
+     * File that saves the cities.
+     */
+    private final String fileName = "cities.sav";
 
+    /**
+     * Vector with all the cities.
+     */
     Vector<Place> places = new Vector<Place>();
 
+    /**
+     * HTML page with city name and populations.
+     */
     private String namePopHTML;
 
-    public Vector<Place> getCities() throws IOException{
-        System.out.println("Extracting data from the Web...");
-        extractNamePopHtml();
-        parseCities();
+    /**
+     * Returns all the cities saved.
+     * @return Vector with all the information.
+     */
+    public Vector<Place> getCities(){
         return places;
     }
 
+    /**
+     * Get all information for all cities through the internet.
+     */
+    public void getCitiesByWeb() throws IOException{
+        extractNamePopHtml();
+        parseCities();
+        saveCities();
+    }
+
+    /**
+     * Get all information for all cities through the file.
+     */
+    public void getCitiesByFile() {
+        try {
+            FileInputStream fileIn = new FileInputStream(fileName);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            places = (Vector<Place>) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Parse city information throught HTML page and HTTP requests
+     */
     private void parseCities() throws IOException {
         Document doc = Jsoup.parse(namePopHTML);
         Elements citiesHtml = doc.getElementsByAttributeValue("style", "text-align: center;");
@@ -46,24 +90,28 @@ public class cityParser {
             String population = aCitiesHtml.children().get(2).text();
 
             Pair<Double,Double> coords = getLatLong(name);
-
-            places.add(new Place(name, coords.getKey(), coords.getValue(), parsePopulation(population)));
-            System.out.println(places.get(places.size() - 1).getName() + " " + places.get(places.size() - 1).getCoord_x() + " " + places.get(places.size() - 1).getCoord_y() + " " + places.get(places.size() - 1).getCitizens());
+            if (coords != null){
+                places.add(new Place(name, coords.getKey(), coords.getValue(), parsePopulation(population)));
+            }
         }
-
-        System.out.println("Finished extracting city names and populations");
     }
 
+    /**
+     * Convert string population number into integer.
+     * @param population String with population number
+     * @return int with population number.
+     */
     private int parsePopulation(String population){
         String ret = "";
-
         for(int i = 0; i < population.length(); ++i)
             if(Character.isDigit(population.charAt(i)))
                 ret+=population.charAt(i);
-
         return Integer.parseInt(ret);
     }
 
+    /**
+     * Save HTML page in namePopHTML String
+     */
     private void extractNamePopHtml() {
         try {
             URL url = new URL(citiesURL);
@@ -79,7 +127,13 @@ public class cityParser {
         }
     }
 
-    public static String excuteGet(String targetURL, String urlParameters) {
+    /**
+     * Returns all the cities saved.
+     * @param targetURL String with the URL to do the request
+     * @param urlParameters Optional parameters to the httprequest
+     * @return String with the result
+     */
+    private static String excuteGet(String targetURL, String urlParameters) {
         HttpURLConnection connection = null;
         try {
             //Create connection
@@ -123,13 +177,16 @@ public class cityParser {
         }
     }
 
-
+    /**
+     * Get real latitude and longitude
+     * @param name City name to search
+     * @return Pair with the <x, y> coords
+     */
     private Pair<Double,Double> getLatLong(String name) {
         String url = null;
-        String nameAux = name.replace("\\(([^)]+)\\)"," ");
-        System.out.println(nameAux);
+        Pair<Double, Double> coords = null;
         try {
-            url = "http://nominatim.openstreetmap.org/search?q=" + URLEncoder.encode(nameAux, "UTF-8") + ",%20Portugal&format=json";
+            url = "http://nominatim.openstreetmap.org/search?q=" + URLEncoder.encode(name, "UTF-8") + ",%20Portugal&format=json";
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -137,13 +194,36 @@ public class cityParser {
 
         JSONArray obj = new JSONArray(json);
 
-        JSONObject results = (JSONObject) obj.get(0);
-
-        Double x = results.getDouble("lat");
-        Double y = results.getDouble("lon");
-
-        Pair<Double, Double> coords = new Pair<>(x, y);
+        if(obj.length() != 0){
+            JSONObject results = (JSONObject) obj.get(0);
+            Double x = results.getDouble("lat");
+            Double y = results.getDouble("lon");
+            coords = new Pair<>(x, y);
+        }
         return coords;
     }
 
+    /**
+     * Serializes the city information.
+     */
+    private void saveCities() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(fileName);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(places);
+            out.close();
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String toString() {
+        String aux = "";
+        for (int i = 0; i < places.size(); i++){
+            aux += places.get(i).getName() + " " + places.get(i).getCitizens() + " " + places.get(i).getCoord_x() + " " + places.get(i).getCoord_y() + "\n";
+        }
+        return aux;
+    }
 }

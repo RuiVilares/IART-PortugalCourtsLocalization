@@ -3,7 +3,7 @@ package location;
 /**
  * Created by Antonio on 21-03-2016.
  */
-public class Place {
+public class Place implements java.io.Serializable {
     /**
      * Name of the place
      */
