@@ -21,13 +21,18 @@ public class source {
 
         System.out.println(parser.toString());
 
-        //Vector<Place> places = parser.getCities();
+        Vector<Place> places = parser.getCities();
 
-        /*
+
 
         //GeneticAlgorithm(Vector<Place> locations, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage)
         //GeneticAlgorithm(Vector<Place> locations, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage)
-        GeneticAlgorithm ga = new GeneticAlgorithm(places, 5, 50, 100, 100, 25, 75 );
+        GeneticAlgorithm ga = new GeneticAlgorithm(places, 5, 25, 100, 0.5, 25, 75 );
+        System.err.println();
+        System.err.println();
+        System.err.println("--------------------");
+        System.err.println("Algoritmos Genéticos");
+        System.err.println("--------------------");
         ga.compute();
 
         int best = ga.getBestScore();
@@ -38,9 +43,14 @@ public class source {
             System.out.println(p);
         }
 
-        //SimulatedAnnealing(Vector<Place> locations, double delta, int dist)
-        SimulatedAnnealing sa = new SimulatedAnnealing(places, 500, 1, 10);
+        //SimulatedAnnealing(Vector<Place> locations, double delta, double dist)
+        SimulatedAnnealing sa = new SimulatedAnnealing(places, 500, 1, 1);
         //sa.parseLocations();
+        System.err.println();
+        System.err.println();
+        System.err.println("----------------------");
+        System.err.println("Arrefecimento Simulado");
+        System.err.println("----------------------");
         sa.compute();
 
 
@@ -52,7 +62,7 @@ public class source {
             System.out.println(p);
         }
 
-        */
+
 
     }
 }

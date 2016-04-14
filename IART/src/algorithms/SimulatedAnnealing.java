@@ -41,7 +41,7 @@ public class SimulatedAnnealing {
      * @param delta decrease of temperature
      * @param dist maximum distance recommended to the court
      */
-    public SimulatedAnnealing(Vector<Place> locations, double initialTemperature, double delta, int dist) {
+    public SimulatedAnnealing(Vector<Place> locations, double initialTemperature, double delta, double dist) {
         this.locations = locations;
         this.delta = delta;
         this.finalTemperature = initialTemperature;
