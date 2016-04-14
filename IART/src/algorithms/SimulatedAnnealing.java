@@ -106,7 +106,7 @@ public class SimulatedAnnealing {
         Pair<Integer,Vector<Boolean> > bestInd = bestIndividual;
 
         //to the infinite and beyond
-        for (double temperature = 1; temperature < finalTemperature; temperature += delta) {
+        for (double temperature = finalTemperature; temperature > 1; temperature -= delta) {
             Pair<Integer,Vector<Boolean> > individual = random(bestIndividual);
 
             int diff = individual.getKey() - bestIndividual.getKey();
