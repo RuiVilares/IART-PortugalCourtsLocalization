@@ -22,6 +22,10 @@ public class SimulatedAnnealing {
      */
     private double delta;
     /**
+     * Number of courts to optimize its location
+     */
+    private int nCourts;
+    /**
      * Information about the individuals. In this case, the locations
      */
     private Vector<Place> locations = new Vector<Place>();
@@ -37,16 +41,18 @@ public class SimulatedAnnealing {
     /**
      * Constructor of Simulated Annealing
      * @param locations vector of places
+     * @param nCourts number of courts to optimize its location
      * @param initialTemperature initial temperature
      * @param delta decrease of temperature
      * @param dist maximum distance recommended to the court
      */
-    public SimulatedAnnealing(Vector<Place> locations, double initialTemperature, double delta, double dist) {
+    public SimulatedAnnealing(Vector<Place> locations, int nCourts, double initialTemperature, double delta, double dist) {
         this.locations = locations;
         this.delta = delta;
         this.finalTemperature = initialTemperature;
+        this.nCourts = nCourts;
         maxDistance = dist;
-        heuristic = new Heuristic(locations, dist);
+        heuristic = new Heuristic(locations, nCourts, dist);
     }
 
     /**
@@ -72,7 +78,7 @@ public class SimulatedAnnealing {
             individual.add(((int) (Math.random()*10) % 2) == 0);
         }
 
-        return individual;
+        return heuristic.correctNumberCourts(individual);
     }
 
     /**
@@ -86,7 +92,7 @@ public class SimulatedAnnealing {
             if (Math.random()*100 < 50) {
                 individual.getValue().set(i, !individual.getValue().get(i));
                 individual = new Pair<Integer,Vector<Boolean> >
-                        (heuristic.computeScore(individual.getValue()), individual.getValue());
+                        (heuristic.computeScore(individual.getValue()), heuristic.correctNumberCourts(individual.getValue()));
                 return individual;
             }
             i++;

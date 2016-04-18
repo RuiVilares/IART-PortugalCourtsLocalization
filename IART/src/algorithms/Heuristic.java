@@ -22,15 +22,21 @@ public class Heuristic {
      * Average number of citizens
      */
     private int avgCitizens;
+    /**
+     * Number of courts to optimize its location
+     */
+    private int nCourts;
 
     /**
      * Constructor of the heuristic
      * @param locations information about the locations
+     * @param nCourts number of courts to optimize its location
      * @param dist maximum distance a citizen can be from the court
      */
-    Heuristic(Vector<Place> locations, double dist) {
+    Heuristic(Vector<Place> locations, int nCourts, double dist) {
         this.locations = locations;
         maxDistance = dist;
+        this.nCourts = nCourts;
         for (Place p : locations) {
             avgCitizens += p.getCitizens();
         }
@@ -45,14 +51,13 @@ public class Heuristic {
     public int computeScore(Vector<Boolean> individual) {
         int score = 0;
 
-        //minimize number of courts -> ncourt * avgCitizens
-        score += minimizeNumberOfCourts(individual);
+        //TODO minimizar os custos de implantação de tribunais nos diferentes concelhos.
 
-        //maximize number of citizens in courts -> where no court do ncitizens
-        score += maximizeCitizensInCourts(individual);
+        //minimize number of courts -> court -> +location.citizens
+        score += optimizeLocations(individual);
 
-        //minimize distance -> dist * citizens
-        //avoid distances that exceed the maximum -> if dist > max then dist * citizens
+        //minimize distance -> -dist * citizens
+        //avoid distances that exceed the maximum -> if dist > max then -dist * citizens
         score += minimizeDistance(individual);
 
         return score;
@@ -97,11 +102,11 @@ public class Heuristic {
     }
 
     /**
-     * Maximize number of citizens in courts
+     * Optimize locations of the courts
      * @param individual individual to evaluate
      * @return penalty (negative)
      */
-    private int maximizeCitizensInCourts(Vector<Boolean> individual) {
+    private int optimizeLocations(Vector<Boolean> individual) {
         int score = 0;
 
         for (int i = 0; i < individual.size(); i++) {
@@ -109,25 +114,6 @@ public class Heuristic {
                 score -= locations.get(i).getCitizens();
             }
         }
-
-        return score;
-    }
-
-    /**
-     * Minimize number of courts
-     * @param individual individual to evaluate
-     * @return penalty (negative)
-     */
-    private int minimizeNumberOfCourts(Vector<Boolean> individual) {
-        int score = 0;
-
-        for (Boolean bool : individual) {
-            if (bool) {
-                score--;
-            }
-        }
-
-        score *= avgCitizens;
 
         return score;
     }
@@ -166,5 +152,42 @@ public class Heuristic {
         }
 
         return bestIndividual;
+    }
+
+    /**
+     * Restricts the number of courts to the acceptable values
+     * @param bool individual
+     * @return corrected individual
+     */
+    protected Vector<Boolean> correctNumberCourts(Vector<Boolean> bool) {
+
+        if (nCourts == 0) {
+            return bool;
+        }
+
+        Vector<Integer> positionsT = new Vector<Integer>();
+        Vector<Integer> positionsF = new Vector<Integer>();
+        for (int i = 0; i < bool.size(); i++) {
+            if (bool.get(i)) {
+                positionsT.add(i);
+            } else {
+                positionsF.add(i);
+            }
+        }
+
+        while (positionsT.size() > nCourts) {
+            int random = ((int) (Math.random()*10000)) % positionsT.size();
+            bool.set(positionsT.get(random), false);
+            positionsT.remove(random);
+        }
+
+        while (positionsT.size() < nCourts) {
+            int random = ((int) (Math.random()*10000)) % positionsF.size();
+            bool.set(positionsF.get(random), true);
+            positionsT.add(positionsF.get(random));
+            positionsF.remove(random);
+        }
+
+        return bool;
     }
 }

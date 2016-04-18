@@ -24,9 +24,9 @@ public class source {
         Vector<Place> places = parser.getCities();
 
 
-        //GeneticAlgorithm(Vector<Place> locations, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage)
-        //GeneticAlgorithm(Vector<Place> locations, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage)
-        GeneticAlgorithm ga = new GeneticAlgorithm(places, 5, 25, 100, 0.5, 25, 75 );
+        //GeneticAlgorithm(Vector<Place> locations, int nCourts, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage)
+        //GeneticAlgorithm(Vector<Place> locations, int nCourts, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage)
+        GeneticAlgorithm ga = new GeneticAlgorithm(places, 50, 5, 20, 100, 0.5, 25, 75 );
         System.err.println();
         System.err.println();
         System.err.println("--------------------");
@@ -42,8 +42,8 @@ public class source {
             System.out.println(p);
         }
 
-        //SimulatedAnnealing(Vector<Place> locations, double delta, double dist)
-        SimulatedAnnealing sa = new SimulatedAnnealing(places, 500, 1, 1);
+        //SimulatedAnnealing(Vector<Place> locations, int nCourts, double initialTemperature, double delta, double dist)
+        SimulatedAnnealing sa = new SimulatedAnnealing(places, 5, 50, 1, 1);
         //sa.parseLocations();
         System.err.println();
         System.err.println();

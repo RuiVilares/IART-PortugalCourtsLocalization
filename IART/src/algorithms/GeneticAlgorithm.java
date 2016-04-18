@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import location.Place;
 
 import java.util.Vector;
+import java.util.function.IntBinaryOperator;
 
 /**
  * Created by Antonio on 21-03-2016.
@@ -34,6 +35,10 @@ public class GeneticAlgorithm {
      */
     private int iterations;
     /**
+     * Number of courts to optimize its location
+     */
+    private int nCourts;
+    /**
      * Information about the individuals. In this case, the locations
      */
     private Vector<Place> locations = new Vector<Place>();
@@ -58,29 +63,32 @@ public class GeneticAlgorithm {
     /**
      * Constructor of non-elitist
      * @param locations information about the individuals
+     * @param nCourts number of courts to optimize its location
      * @param generationSize number of individuals per generation
      * @param iterations number of generations
      * @param dist maximum distance a citizen can be from the court
      * @param pbMutation probability of mutation
      * @param pbMarriage probability of marriage
      */
-    public GeneticAlgorithm(Vector<Place> locations, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage) {
+    public GeneticAlgorithm(Vector<Place> locations, int nCourts, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage) {
         this.locations = locations;
         this.generationSize = generationSize;
         this.iterations = iterations;
         this.pbMutation = Math.abs(pbMutation);
         this.pbMarriage = Math.abs(pbMarriage);
+        this.nCourts = nCourts;
         if (pbMutation > 100 || pbMarriage > 100) {
             System.err.println("Probabilities not valid");
         }
         maxDistance = dist;
-        heuristic = new Heuristic(locations, dist);
+        heuristic = new Heuristic(locations, nCourts, dist);
         createInitialPopulation();
     }
 
     /**
      * Constructor of elitist
      * @param locations information about the individuals
+     * @param nCourts number of courts to optimize its location
      * @param bestToPass number of individuals that pass
      * @param generationSize number of individuals per generation
      * @param iterations number of generations
@@ -88,8 +96,8 @@ public class GeneticAlgorithm {
      * @param pbMutation probability of mutation
      * @param pbMarriage probability of marriage
      */
-    public GeneticAlgorithm(Vector<Place> locations, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage) {
-        this(locations, generationSize, iterations, dist, pbMutation, pbMarriage);
+    public GeneticAlgorithm(Vector<Place> locations, int nCourts, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage) {
+        this(locations, nCourts, generationSize, iterations, dist, pbMutation, pbMarriage);
         if (bestToPass > locations.size()) {
             System.err.println("Elitist error: best to pass bigger than the population");
         }
@@ -116,8 +124,22 @@ public class GeneticAlgorithm {
     private Vector<Boolean> randomIndividual() {
         Vector<Boolean> individual = new Vector<Boolean>();
 
-        for (int i = 0; i < locations.size(); i++) {
-            individual.add(((int) (Math.random()*10) % 2) == 0);
+        if (nCourts == 0) {
+            for (int i = 0; i < locations.size(); i++) {
+                individual.add(((int) (Math.random() * 10) % 2) == 0);
+            }
+        } else {
+            for (int i = 0; i < locations.size(); i++) {
+                individual.add(false);
+            }
+            int courts = nCourts;
+            while (courts > 0) {
+                int random = ((int) (Math.random() * 10000)) % individual.size();
+                if (!individual.get(random)) {
+                    individual.set(random, true);
+                    courts--;
+                }
+            }
         }
 
         return individual;
@@ -155,7 +177,6 @@ public class GeneticAlgorithm {
      * Mutate individuals
      */
     private void mutation() {
-        int total = locations.size() * population.size();
 
         for (int i = 0; i < population.size(); i++) {
             for (int j = 0; j < locations.size(); j++) {
@@ -163,6 +184,10 @@ public class GeneticAlgorithm {
                     population.get(i).getValue().set(j, !population.get(i).getValue().get(j));
                 }
             }
+        }
+
+        for (int i = 0; i < population.size(); i++) {
+            population.set(i, new Pair<Integer, Vector<Boolean>>(Integer.MIN_VALUE, heuristic.correctNumberCourts(population.get(i).getValue())));
         }
     }
 
@@ -213,7 +238,7 @@ public class GeneticAlgorithm {
             bool.add(individualB.getValue().get(i));
         }
 
-        return new Pair<Integer,Vector<Boolean>>(Integer.MIN_VALUE, bool);
+        return new Pair<Integer, Vector<Boolean>>(Integer.MIN_VALUE, heuristic.correctNumberCourts(bool));
     }
 
     /**
