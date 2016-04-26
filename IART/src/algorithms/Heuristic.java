@@ -22,6 +22,10 @@ public class Heuristic {
      * Number of courts to optimize its location
      */
     private int nCourts;
+    /**
+     * Budget to build the courts
+     */
+    private double budget;
 
     /**
      * Constructor of the heuristic
@@ -36,12 +40,26 @@ public class Heuristic {
     }
 
     /**
+     * Constructor of the heuristic
+     * @param locations information about the locations
+     * @param price budget
+     * @param dist maximum distance a citizen can be from the court
+     */
+    Heuristic(Vector<Place> locations, double price, double dist) {
+        this.locations = locations;
+        maxDistance = dist;
+        this.nCourts = 0;
+        this.budget = price;
+    }
+
+    /**
      * Computes the score of a given individual
      * @param individual individual to evaluate
      * @return individual's score
      */
     public int computeScore(Vector<Boolean> individual) {
         int score = 0;
+        double price = 0;
 
         for (int i = 0; i < individual.size(); i++) {
             if (!individual.get(i)) {
@@ -66,9 +84,17 @@ public class Heuristic {
                 if (minimum > maxDistance) {
                     avoid = 2;
                 }
+
+                price += locations.get(i).getPrice();
+
                 //TODO improve this!!!!!!
-                score -= (avoid * minimum * locations.get(i).getPrice() * (1/Math.log(locations.get(i).getCitizens())));
+                score -= (avoid * minimum * locations.get(i).getPrice() * (Math.log(locations.get(i).getCitizens())));
             }
+        }
+
+        if (nCourts == 0 && price > budget) {
+            //TODO improve this!!!!!
+            score--;
         }
 
         return score;

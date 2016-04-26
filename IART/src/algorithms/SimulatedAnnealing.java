@@ -26,6 +26,10 @@ public class SimulatedAnnealing {
      */
     private int nCourts;
     /**
+     * Budget to build the courts
+     */
+    private double budget;
+    /**
      * Information about the individuals. In this case, the locations
      */
     private Vector<Place> locations = new Vector<Place>();
@@ -56,6 +60,19 @@ public class SimulatedAnnealing {
     }
 
     /**
+     * Constructor of Simulated Annealing
+     * @param locations vector of places
+     * @param price budget
+     * @param initialTemperature initial temperature
+     * @param delta decrease of temperature
+     * @param dist maximum distance recommended to the court
+     */
+    public SimulatedAnnealing(Vector<Place> locations, double price, double initialTemperature, double delta, double dist) {
+        this(locations, 0, initialTemperature, delta, dist);
+        this.budget = price;
+    }
+
+    /**
      * This method is to used with genetic algorithms
      */
     public void parseLocations() {
@@ -78,6 +95,10 @@ public class SimulatedAnnealing {
             individual.add(((int) (Math.random()*10) % 2) == 0);
         }
 
+        if (nCourts == 0) {
+            return individual;
+        }
+
         return heuristic.correctNumberCourts(individual);
     }
 
@@ -91,8 +112,10 @@ public class SimulatedAnnealing {
         while (true) {
             if (Math.random()*100 < 50) {
                 individual.getValue().set(i, !individual.getValue().get(i));
-                individual = new Pair<Integer,Vector<Boolean> >
-                        (heuristic.computeScore(individual.getValue()), heuristic.correctNumberCourts(individual.getValue()));
+                if (nCourts > 0) {
+                    individual = new Pair<Integer,Vector<Boolean> >
+                            (heuristic.computeScore(individual.getValue()), heuristic.correctNumberCourts(individual.getValue()));
+                }
                 return individual;
             }
             i++;

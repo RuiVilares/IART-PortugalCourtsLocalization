@@ -39,6 +39,10 @@ public class GeneticAlgorithm {
      */
     private int nCourts;
     /**
+     * Budget to build the courts
+     */
+    private double budget;
+    /**
      * Information about the individuals. In this case, the locations
      */
     private Vector<Place> locations = new Vector<Place>();
@@ -102,6 +106,22 @@ public class GeneticAlgorithm {
             System.err.println("Elitist error: best to pass bigger than the population");
         }
         this.bestToPass = bestToPass;
+    }
+
+    /**
+     * Constructor with budget
+     * @param locations information about the individuals
+     * @param price budget
+     * @param bestToPass number of individuals that pass
+     * @param generationSize number of individuals per generation
+     * @param iterations number of generations
+     * @param dist maximum distance a citizen can be from the court
+     * @param pbMutation probability of mutation
+     * @param pbMarriage probability of marriage
+     */
+    public GeneticAlgorithm(Vector<Place> locations, double price, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage) {
+        this(locations, 0, generationSize, iterations, dist, pbMutation, pbMarriage);
+        this.budget = price;
     }
 
     /**
@@ -186,8 +206,10 @@ public class GeneticAlgorithm {
             }
         }
 
-        for (int i = 0; i < population.size(); i++) {
-            population.set(i, new Pair<Integer, Vector<Boolean>>(Integer.MIN_VALUE, heuristic.correctNumberCourts(population.get(i).getValue())));
+        if (nCourts > 0) {
+            for (int i = 0; i < population.size(); i++) {
+                population.set(i, new Pair<Integer, Vector<Boolean>>(Integer.MIN_VALUE, heuristic.correctNumberCourts(population.get(i).getValue())));
+            }
         }
     }
 
@@ -236,6 +258,10 @@ public class GeneticAlgorithm {
         }
         for (int i = cut; i < locations.size(); i++) {
             bool.add(individualB.getValue().get(i));
+        }
+
+        if (this.nCourts == 0) {
+            return new Pair<Integer, Vector<Boolean>>(Integer.MIN_VALUE, bool);
         }
 
         return new Pair<Integer, Vector<Boolean>>(Integer.MIN_VALUE, heuristic.correctNumberCourts(bool));

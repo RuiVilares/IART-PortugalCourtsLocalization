@@ -42,7 +42,7 @@ public class source {
         }
 
         //SimulatedAnnealing(Vector<Place> locations, int nCourts, double initialTemperature, double delta, double dist)
-        SimulatedAnnealing sa = new SimulatedAnnealing(places, 5, 50, 1, 1);
+        SimulatedAnnealing sa = new SimulatedAnnealing(places, 50, 50, 1, 1);
         //sa.parseLocations();
         System.err.println();
         System.err.println();
