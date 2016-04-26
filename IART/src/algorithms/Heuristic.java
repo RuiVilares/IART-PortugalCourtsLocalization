@@ -19,10 +19,6 @@ public class Heuristic {
      */
     private double maxDistance;
     /**
-     * Average number of citizens
-     */
-    private int avgCitizens;
-    /**
      * Number of courts to optimize its location
      */
     private int nCourts;
@@ -37,10 +33,6 @@ public class Heuristic {
         this.locations = locations;
         maxDistance = dist;
         this.nCourts = nCourts;
-        for (Place p : locations) {
-            avgCitizens += p.getCitizens();
-        }
-        avgCitizens /= locations.size();
     }
 
     /**
@@ -51,32 +43,12 @@ public class Heuristic {
     public int computeScore(Vector<Boolean> individual) {
         int score = 0;
 
-        //TODO minimizar os custos de implantação de tribunais nos diferentes concelhos.
-
-        //minimize number of courts -> court -> +location.citizens
-        score += optimizeLocations(individual);
-
-        //minimize distance -> -dist * citizens
-        //avoid distances that exceed the maximum -> if dist > max then -dist * citizens
-        score += minimizeDistance(individual);
-
-        return score;
-    }
-
-    /**
-     * Minimize distance
-     * Avoid distances that exceed the maximum
-     * @param individual individual to evaluate
-     * @return penalty (negative)
-     */
-    private int minimizeDistance(Vector<Boolean> individual) {
-        int score = 0;
-
         for (int i = 0; i < individual.size(); i++) {
             if (!individual.get(i)) {
                 double minimum = Double.MAX_VALUE;
                 double maximum = -1;
 
+                //computes the shortest distance to a court
                 for (int j = 0; j < individual.size(); j++) {
                     if (i != j) {
                         if (individual.get(j)) {
@@ -94,24 +66,8 @@ public class Heuristic {
                 if (minimum > maxDistance) {
                     avoid = 2;
                 }
-                score -= (avoid * minimum * locations.get(i).getCitizens());
-            }
-        }
-
-        return score;
-    }
-
-    /**
-     * Optimize locations of the courts
-     * @param individual individual to evaluate
-     * @return penalty (negative)
-     */
-    private int optimizeLocations(Vector<Boolean> individual) {
-        int score = 0;
-
-        for (int i = 0; i < individual.size(); i++) {
-            if (!individual.get(i)) {
-                score -= locations.get(i).getCitizens();
+                //TODO improve this!!!!!!
+                score -= (avoid * minimum * locations.get(i).getPrice() * (1/Math.log(locations.get(i).getCitizens())));
             }
         }
 

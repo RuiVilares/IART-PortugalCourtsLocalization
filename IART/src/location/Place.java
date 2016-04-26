@@ -24,9 +24,14 @@ public class Place implements java.io.Serializable {
      * is there a court
      */
     private boolean court = false;
+    /**
+     * Price of building a court in this place
+     */
+    private double price = 1;
 
     /**
      * Constructor of class Place
+     * @param name name of the place
      * @param coord_x coordinate x of the place
      * @param coord_y coordinate y of the place
      * @param population size of the population
@@ -36,6 +41,22 @@ public class Place implements java.io.Serializable {
         this.coord_x = coord_x;
         this.coord_y = coord_y;
         this.citizens = population;
+    }
+
+    /**
+     * Constructor of class Place
+     * @param name name of the place
+     * @param coord_x coordinate x of the place
+     * @param coord_y coordinate y of the place
+     * @param population size of the population
+     * @param price price of the place
+     */
+    public Place(String name, double coord_x, double coord_y, int population, double price) {
+        this.name = new String(name);
+        this.coord_x = coord_x;
+        this.coord_y = coord_y;
+        this.citizens = population;
+        this.price = price;
     }
 
     /**
@@ -76,5 +97,9 @@ public class Place implements java.io.Serializable {
 
     public void setCourt(boolean court) {
         this.court = court;
+    }
+
+    public double getPrice() {
+        return price;
     }
 }

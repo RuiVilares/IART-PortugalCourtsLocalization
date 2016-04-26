@@ -24,7 +24,6 @@ public class source {
         Vector<Place> places = parser.getCities();
 
 
-        //GeneticAlgorithm(Vector<Place> locations, int nCourts, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage)
         //GeneticAlgorithm(Vector<Place> locations, int nCourts, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage)
         GeneticAlgorithm ga = new GeneticAlgorithm(places, 50, 5, 20, 100, 0.5, 25, 75 );
         System.err.println();
