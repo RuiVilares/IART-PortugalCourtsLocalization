@@ -60,6 +60,7 @@ public class Heuristic {
     public int computeScore(Vector<Boolean> individual) {
         int score = 0;
         double price = 0;
+        int avgCitizens = 0;
 
         for (int i = 0; i < individual.size(); i++) {
             if (!individual.get(i)) {
@@ -87,14 +88,16 @@ public class Heuristic {
 
                 price += locations.get(i).getPrice();
 
-                //TODO improve this!!!!!!
-                score -= (avoid * minimum * locations.get(i).getPrice() * (Math.log(locations.get(i).getCitizens())));
+                avgCitizens += locations.get(i).getCitizens();
+
+                score -= (avoid * minimum * locations.get(i).getPrice() * locations.get(i).getCitizens());
             }
         }
 
+        avgCitizens /= locations.size();
+
         if (nCourts == 0 && price > budget) {
-            //TODO improve this!!!!!
-            score--;
+            score -= (avgCitizens * price);
         }
 
         return score;
