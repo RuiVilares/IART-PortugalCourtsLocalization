@@ -10,6 +10,10 @@ import java.util.Vector;
  */
 public class SimulatedAnnealing {
     /**
+     * Percentage of iterations allowed with the same best individual
+     */
+    private double iterationsBeforeStop = 0.2;
+    /**
      * Maximum distance to the court
      */
     private double maxDistance;
@@ -49,12 +53,14 @@ public class SimulatedAnnealing {
      * @param initialTemperature initial temperature
      * @param delta decrease of temperature
      * @param dist maximum distance recommended to the court
+     * @param iterationsBeforeStop Percentage of iterations allowed with the same best individual
      */
-    public SimulatedAnnealing(Vector<Place> locations, int nCourts, double initialTemperature, double delta, double dist) {
+    public SimulatedAnnealing(Vector<Place> locations, int nCourts, double initialTemperature, double delta, double dist, double iterationsBeforeStop) {
         this.locations = locations;
         this.delta = delta;
         this.finalTemperature = initialTemperature;
         this.nCourts = nCourts;
+        this.iterationsBeforeStop = iterationsBeforeStop;
         maxDistance = dist;
         heuristic = new Heuristic(locations, nCourts, dist);
     }
@@ -66,9 +72,10 @@ public class SimulatedAnnealing {
      * @param initialTemperature initial temperature
      * @param delta decrease of temperature
      * @param dist maximum distance recommended to the court
+     * @param iterationsBeforeStop Percentage of iterations allowed with the same best individual
      */
-    public SimulatedAnnealing(Vector<Place> locations, double price, double initialTemperature, double delta, double dist) {
-        this(locations, 0, initialTemperature, delta, dist);
+    public SimulatedAnnealing(Vector<Place> locations, double price, double initialTemperature, double delta, double dist, double iterationsBeforeStop) {
+        this(locations, 0, initialTemperature, delta, dist, iterationsBeforeStop);
         this.budget = price;
     }
 
@@ -132,10 +139,13 @@ public class SimulatedAnnealing {
             bestIndividual = new Pair<Integer,Vector<Boolean> >(heuristic.computeScore(v), v);
         }
 
+        int bestScore = Integer.MIN_VALUE;
+        int totalIterations = (int) ((finalTemperature / delta) * iterationsBeforeStop);
+
         Pair<Integer,Vector<Boolean> > bestInd = bestIndividual;
 
         //to the infinite and beyond
-        for (double temperature = finalTemperature; temperature > 1; temperature -= delta) {
+        for (double temperature = finalTemperature, stop = totalIterations; temperature > 1 && stop > 0; temperature -= delta, stop--) {
             Pair<Integer,Vector<Boolean> > individual = random(bestIndividual);
 
             int diff = individual.getKey() - bestIndividual.getKey();
@@ -146,6 +156,11 @@ public class SimulatedAnnealing {
 
             if (diff > 0 || Math.exp(diff / temperature) > Math.random()) {
                 bestIndividual = individual;
+            }
+
+            if (bestScore < bestIndividual.getKey()) {
+                stop = totalIterations;
+                bestScore = bestIndividual.getKey();
             }
         }
 

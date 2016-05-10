@@ -24,8 +24,8 @@ public class source {
         Vector<Place> places = parser.getCities();
 
 
-        //GeneticAlgorithm(Vector<Place> locations, int nCourts, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage)
-        GeneticAlgorithm ga = new GeneticAlgorithm(places, 50, 5, 20, 100, 0.5, 25, 75 );
+        //GeneticAlgorithm(Vector<Place> locations, int nCourts, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage, double iterationsBeforeStop)
+        GeneticAlgorithm ga = new GeneticAlgorithm(places, 50, 5, 20, 500, 0.5, 25, 75, 0.5);
         System.err.println();
         System.err.println();
         System.err.println("--------------------");
@@ -41,8 +41,8 @@ public class source {
             System.out.println(p);
         }
 
-        //SimulatedAnnealing(Vector<Place> locations, int nCourts, double initialTemperature, double delta, double dist)
-        SimulatedAnnealing sa = new SimulatedAnnealing(places, 50, 50, 1, 1);
+        //SimulatedAnnealing(Vector<Place> locations, int nCourts, double initialTemperature, double delta, double dist, double iterationsBeforeStop)
+        SimulatedAnnealing sa = new SimulatedAnnealing(places, 50, 50, 0.01, 1, 0.5);
         //sa.parseLocations();
         System.err.println();
         System.err.println();
@@ -59,8 +59,5 @@ public class source {
         for (Place p : places) {
             System.out.println(p);
         }
-
-
-
     }
 }

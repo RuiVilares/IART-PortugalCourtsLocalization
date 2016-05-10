@@ -4,12 +4,15 @@ import javafx.util.Pair;
 import location.Place;
 
 import java.util.Vector;
-import java.util.function.IntBinaryOperator;
 
 /**
  * Created by Antonio on 21-03-2016.
  */
 public class GeneticAlgorithm {
+    /**
+     * Percentage of iterations allowed with the same best individual
+     */
+    private double iterationsBeforeStop = 0.2;
     /**
      * Maximum distance to the court
      */
@@ -73,13 +76,15 @@ public class GeneticAlgorithm {
      * @param dist maximum distance a citizen can be from the court
      * @param pbMutation probability of mutation
      * @param pbMarriage probability of marriage
+     * @param iterationsBeforeStop Percentage of iterations allowed with the same best individual
      */
-    public GeneticAlgorithm(Vector<Place> locations, int nCourts, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage) {
+    public GeneticAlgorithm(Vector<Place> locations, int nCourts, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage, double iterationsBeforeStop) {
         this.locations = locations;
         this.generationSize = generationSize;
         this.iterations = iterations;
         this.pbMutation = Math.abs(pbMutation);
         this.pbMarriage = Math.abs(pbMarriage);
+        this.iterationsBeforeStop = iterationsBeforeStop;
         this.nCourts = nCourts;
         if (pbMutation > 100 || pbMarriage > 100) {
             System.err.println("Probabilities not valid");
@@ -99,9 +104,10 @@ public class GeneticAlgorithm {
      * @param dist maximum distance a citizen can be from the court
      * @param pbMutation probability of mutation
      * @param pbMarriage probability of marriage
+     * @param iterationsBeforeStop Percentage of iterations allowed with the same best individual
      */
-    public GeneticAlgorithm(Vector<Place> locations, int nCourts, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage) {
-        this(locations, nCourts, generationSize, iterations, dist, pbMutation, pbMarriage);
+    public GeneticAlgorithm(Vector<Place> locations, int nCourts, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage, double iterationsBeforeStop) {
+        this(locations, nCourts, generationSize, iterations, dist, pbMutation, pbMarriage, iterationsBeforeStop);
         if (bestToPass > locations.size()) {
             System.err.println("Elitist error: best to pass bigger than the population");
         }
@@ -118,9 +124,10 @@ public class GeneticAlgorithm {
      * @param dist maximum distance a citizen can be from the court
      * @param pbMutation probability of mutation
      * @param pbMarriage probability of marriage
+     * @param iterationsBeforeStop Percentage of iterations allowed with the same best individual
      */
-    public GeneticAlgorithm(Vector<Place> locations, double price, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage) {
-        this(locations, 0, generationSize, iterations, dist, pbMutation, pbMarriage);
+    public GeneticAlgorithm(Vector<Place> locations, double price, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage, double iterationsBeforeStop) {
+        this(locations, 0, generationSize, iterations, dist, pbMutation, pbMarriage, iterationsBeforeStop);
         this.budget = price;
     }
 
@@ -171,7 +178,11 @@ public class GeneticAlgorithm {
      * marriage and mutation
      */
     public void compute() {
-        for (int i = 1; i <= iterations; i++) {
+
+        int bestScore = Integer.MIN_VALUE;
+        int totalIterations = (int) (iterations * iterationsBeforeStop);
+
+        for (int i = 1, stop = totalIterations; i <= iterations && stop > 0; i++, stop--) {
             selection();
 
             marriage();
@@ -181,6 +192,11 @@ public class GeneticAlgorithm {
             addEliteToPopulation();
             population = heuristic.computeBestAndUpdateScores(population);
             bestIndividual = heuristic.getBest(population, bestIndividual);
+
+            if (bestScore < bestIndividual.getKey()) {
+                stop = totalIterations;
+                bestScore = bestIndividual.getKey();
+            }
         }
     }
 
