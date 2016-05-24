@@ -72,7 +72,7 @@ public class Place implements java.io.Serializable {
 
     @Override
     public String toString() {
-        return name + " court = " + isCourt();
+        return name;
     }
 
     public boolean isCourt() {

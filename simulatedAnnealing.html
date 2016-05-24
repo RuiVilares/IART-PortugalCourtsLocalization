@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Courts in Portugal</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+   <div id="map"></div>
+   <script>
+      function initMap() {
+        var array = [
+          { name: 'Lisboa', lat: 38.7077926 , lng: -9.1365069},
+          { name: 'Porto', lat: 41.1494512 , lng: -8.6107883},
+          { name: 'Cascais', lat: 38.72240025 , lng: -9.39690927422414},
+          { name: 'Matosinhos', lat: 41.22232475 , lng: -8.67043225545132},
+          { name: 'Viana do Castelo', lat: 41.6951435 , lng: -8.8299056},
+          { name: 'Ponta Delgada', lat: 37.7463404 , lng: -25.6670662},
+          { name: 'Vila Verde', lat: 41.6697428 , lng: -8.46544518289766},
+          { name: 'Marinha Grande', lat: 39.78976355 , lng: -8.96171537738137},
+          { name: 'Silves', lat: 37.2639504 , lng: -8.34873344433029},
+          { name: 'Tondela', lat: 40.51642 , lng: -8.0805299},
+          { name: 'Seia', lat: 40.38279605 , lng: -7.69137099384889},
+          { name: 'Oliveira do Bairro', lat: 40.5138208 , lng: -8.4928162},
+          { name: 'Lagoa (Algarve)', lat: 37.13258125 , lng: -8.45505084811731},
+          { name: 'Coruche', lat: 38.95778 , lng: -8.5284999},
+          { name: 'Ponte de Sor', lat: 39.2519544 , lng: -8.008972},
+          { name: 'Penacova', lat: 40.29472375 , lng: -8.2617549297409},
+          { name: 'Nazaré', lat: 39.6029108 , lng: -9.0701571},
+          { name: 'Reguengos de Monsaraz', lat: 38.4243996 , lng: -7.5347108},
+          { name: 'Paredes de Coura', lat: 41.91106 , lng: -8.5595899},
+          { name: 'Tarouca', lat: 41.0176 , lng: -7.77499513363393},
+          { name: 'Santa Marta de Penaguião', lat: 41.22331175 , lng: -7.79766114922444},
+          { name: 'Castro Marim', lat: 37.28087905 , lng: -7.52043330877988},
+          { name: 'Portel', lat: 38.30859 , lng: -7.7049699},
+          { name: 'Vila do Bispo', lat: 37.07938075 , lng: -8.86884010407912},
+          { name: 'Pampilhosa da Serra', lat: 40.0460143 , lng: -7.9515149},
+          { name: 'Sardoal', lat: 39.5619865 , lng: -8.13837398527961},
+          { name: 'Crato', lat: 39.2879436 , lng: -7.6461202},
+          { name: 'Penedono', lat: 40.9873598 , lng: -7.41085570788707},
+          { name: 'Lajes das Flores', lat: 39.381649 , lng: -31.1730799},
+          { name: 'Lisboa', lat: 38.7077926 , lng: -9.1365069},
+          { name: 'Vila Nova de Famalicão', lat: 41.4065175 , lng: -8.518748},
+          { name: 'Leiria', lat: 39.7445357 , lng: -8.8080364},
+          { name: 'Setúbal', lat: 38.51726965 , lng: -8.89632339723363},
+          { name: 'Viana do Castelo', lat: 41.6951435 , lng: -8.8299056},
+          { name: 'Torres Vedras', lat: 39.0925372 , lng: -9.2598536},
+          { name: 'Santo Tirso', lat: 41.3112258 , lng: -8.45299611318174},
+          { name: 'Elvas', lat: 38.8811 , lng: -7.1638299},
+          { name: 'Vila Real de Santo António', lat: 37.18841245 , lng: -7.43953666896756},
+          { name: 'Valpaços', lat: 41.6067883 , lng: -7.3108524},
+          { name: 'Mira', lat: 37.5667894 , lng: -8.2791583},
+          { name: 'Montalegre', lat: 41.7569917 , lng: -7.85664638172274},
+          { name: 'Moimenta da Beira', lat: 40.95659595 , lng: -7.65245064425876},
+          { name: 'Aljustrel', lat: 37.8897602 , lng: -8.19646606897383},
+          { name: 'São João da Pesqueira', lat: 41.1070231 , lng: -7.40906243932016},
+          { name: 'Nisa', lat: 39.52050315 , lng: -7.69472812705945},
+          { name: 'Vila Nova de Foz Côa', lat: 41.084007 , lng: -7.1365558},
+          { name: 'Figueiró dos Vinhos', lat: 39.93004875 , lng: -8.29750686376971},
+          { name: 'Calheta (Açores)', lat: 38.605381 , lng: -28.0120099},
+          { name: 'Arronches', lat: 39.1070925 , lng: -7.25298832975994},
+          { name: 'Penedono', lat: 40.9873598 , lng: -7.41085570788707},
+        ];
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+           zoom: 4,
+           center: array[0]
+        });
+
+       array.forEach(function(ele) {
+           new google.maps.Marker({
+               position: ele,
+               map: map,
+               title: ele.name
+           })});
+       }
+   </script>
+   <script async defer
+       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbzBzA_844mIB43D_gqph92jB8Q4-nUUQ&callback=initMap">
+   </script>
+  </body>
+</html>

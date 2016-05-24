@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Courts in Portugal</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+   <div id="map"></div>
+   <script>
+      function initMap() {
+        var array = [
+          { name: 'Odivelas', lat: 38.7926342 , lng: -9.18267},
+          { name: 'Torres Vedras', lat: 39.0925372 , lng: -9.2598536},
+          { name: 'Évora', lat: 38.5707742 , lng: -7.9092807},
+          { name: 'Covilhã', lat: 40.26586015 , lng: -7.53608372632971},
+          { name: 'Sesimbra', lat: 38.49606965 , lng: -9.11910785536026},
+          { name: 'Santa Cruz', lat: 41.90410385 , lng: -6.95747022125453},
+          { name: 'Ribeira Grande', lat: 39.0484483 , lng: -7.7407048},
+          { name: 'Peniche', lat: 39.3566221 , lng: -9.3812852},
+          { name: 'Póvoa de Lanhoso', lat: 41.58706585 , lng: -8.24640255073617},
+          { name: 'São João da Madeira', lat: 40.8977253 , lng: -8.49067718278626},
+          { name: 'Vila Real de Santo António', lat: 37.18841245 , lng: -7.43953666896756},
+          { name: 'Miranda do Corvo', lat: 40.1100162 , lng: -8.34301311726965},
+          { name: 'Sabugal', lat: 40.40349495 , lng: -7.05014365340047},
+          { name: 'Sever do Vouga', lat: 40.7324627 , lng: -8.3710939},
+          { name: 'Vila Franca do Campo', lat: 37.717417 , lng: -25.4347282},
+          { name: 'Aljustrel', lat: 37.8897602 , lng: -8.19646606897383},
+          { name: 'Penalva do Castelo', lat: 40.6753375 , lng: -7.6591109864442},
+          { name: 'Santana', lat: 32.804907 , lng: -16.8813014},
+          { name: 'Alvaiázere', lat: 39.81606415 , lng: -8.40201189994998},
+          { name: 'Castro Verde', lat: 37.6943402 , lng: -8.02538404848508},
+          { name: 'Redondo', lat: 38.6466891 , lng: -7.5467635},
+          { name: 'Carrazeda de Ansiães', lat: 41.2435491 , lng: -7.3054014},
+          { name: 'Murça', lat: 41.42595185 , lng: -7.46554613380263},
+          { name: 'Mesão Frio', lat: 41.1606026 , lng: -7.86311485494992},
+          { name: 'Odivelas', lat: 38.7926342 , lng: -9.18267},
+          { name: 'Santa Maria da Feira', lat: 40.9252394 , lng: -8.5426573},
+          { name: 'Paredes', lat: 41.2074031 , lng: -8.3328257},
+          { name: 'Penafiel', lat: 41.144188 , lng: -8.30238332776531},
+          { name: 'Ponta Delgada', lat: 37.7463404 , lng: -25.6670662},
+          { name: 'Évora', lat: 38.5707742 , lng: -7.9092807},
+          { name: 'Portimão', lat: 37.19415495 , lng: -8.58549764355229},
+          { name: 'Montijo', lat: 38.74502535 , lng: -8.62885841490268},
+          { name: 'Guarda', lat: 40.5388855 , lng: -7.2689162},
+          { name: 'Montemor-o-Velho', lat: 40.21165665 , lng: -8.63381025401646},
+          { name: 'Rio Maior', lat: 39.35043185 , lng: -8.91118574063799},
+          { name: 'Coruche', lat: 38.95778 , lng: -8.5284999},
+          { name: 'Monção', lat: 42.0787023 , lng: -8.48139},
+          { name: 'Condeixa-a-Nova', lat: 40.1153481 , lng: -8.4998827},
+          { name: 'Sertã', lat: 39.83792345 , lng: -8.09709004458682},
+          { name: 'São Brás de Alportel', lat: 37.19555795 , lng: -7.89076323066751},
+          { name: 'Murtosa', lat: 40.7608867 , lng: -8.67148292900504},
+          { name: 'Oliveira de Frades', lat: 40.7171166 , lng: -8.23268895830767},
+          { name: 'Paredes de Coura', lat: 41.91106 , lng: -8.5595899},
+          { name: 'Vinhais', lat: 41.83095605 , lng: -7.07631809513964},
+          { name: 'Ferreira do Zêzere', lat: 39.72386125 , lng: -8.33239533108553},
+          { name: 'Campo Maior', lat: 39.01209575 , lng: -7.0450532233931},
+          { name: 'Porto Santo', lat: 33.06577355 , lng: -16.3362449371852},
+          { name: 'Alfândega da Fé', lat: 41.3419743 , lng: -6.9611438},
+          { name: 'Vila Velha de Ródão', lat: 39.6521463 , lng: -7.6721611},
+          { name: 'Fronteira', lat: 39.0558091 , lng: -7.6478656},
+        ];
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+           zoom: 4,
+           center: array[0]
+        });
+
+       array.forEach(function(ele) {
+           new google.maps.Marker({
+               position: ele,
+               map: map,
+               title: ele.name
+           })});
+       }
+   </script>
+   <script async defer
+       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbzBzA_844mIB43D_gqph92jB8Q4-nUUQ&callback=initMap">
+   </script>
+  </body>
+</html>

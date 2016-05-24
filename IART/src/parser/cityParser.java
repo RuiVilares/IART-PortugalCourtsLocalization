@@ -60,7 +60,6 @@ public class cityParser {
     public void getCitiesByWeb() throws IOException{
         extractNamePopHtml();
         parseCities();
-        saveCities();
     }
 
     /**
@@ -206,7 +205,7 @@ public class cityParser {
     /**
      * Serializes the city information.
      */
-    private void saveCities() {
+    public void saveCities() {
         try {
             FileOutputStream fileOut = new FileOutputStream(fileName);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -225,5 +224,71 @@ public class cityParser {
             aux += places.get(i).getName() + " " + places.get(i).getCitizens() + " " + places.get(i).getCoord_x() + " " + places.get(i).getCoord_y() + "\n";
         }
         return aux;
+    }
+
+    public void javascriptFileConstructor(Vector<Place> places, String filename){
+        //https://developers.google.com/maps/documentation/javascript/examples/marker-simple
+
+        String javascript = "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "  <head>\n" +
+                "    <meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\">\n" +
+                "    <meta charset=\"utf-8\">\n" +
+                "    <title>Courts in Portugal</title>\n" +
+                "    <style>\n" +
+                "      html, body {\n" +
+                "        height: 100%;\n" +
+                "        margin: 0;\n" +
+                "        padding: 0;\n" +
+                "      }\n" +
+                "      #map {\n" +
+                "        height: 100%;\n" +
+                "      }\n" +
+                "    </style>\n" +
+                "  </head>\n" +
+                "  <body>\n" +
+                "   <div id=\"map\"></div>\n" +
+                "   <script>\n" +
+                "      function initMap() {\n" +
+                "        var array = [\n";
+        for (int i = 0; i < places.size(); i++){
+            if(places.get(i).isCourt()){
+                javascript +=
+                        "          { name: '" +
+                                places.get(i).getName() +
+                                "', lat: " +
+                                places.get(i).getCoord_x() +
+                                " , lng: " +
+                                places.get(i).getCoord_y() +
+                                "},\n";
+            }
+        }
+        javascript +=
+                "        ];\n\n" +
+                        "        var map = new google.maps.Map(document.getElementById('map'), {\n" +
+                        "           zoom: 4,\n" +
+                        "           center: array[0]\n" +
+                        "        });\n" +
+                        "\n" +
+                        "       array.forEach(function(ele) {\n"  +
+                        "           new google.maps.Marker({\n" +
+                        "               position: ele,\n" +
+                        "               map: map,\n" +
+                        "               title: ele.name\n" +
+                        "           })});\n" +
+                        "       }\n" +
+                        "   </script>\n" +
+                        "   <script async defer\n" +
+                        "       src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyDbzBzA_844mIB43D_gqph92jB8Q4-nUUQ&callback=initMap\">\n" +
+                        "   </script>\n" +
+                        "  </body>\n" +
+                        "</html>";
+        try {
+            FileOutputStream out = new FileOutputStream(new File(filename));
+            out.write(javascript.getBytes());
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
