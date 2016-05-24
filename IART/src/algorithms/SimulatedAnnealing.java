@@ -77,6 +77,7 @@ public class SimulatedAnnealing {
     public SimulatedAnnealing(Vector<Place> locations, double price, double initialTemperature, double delta, double dist, double iterationsBeforeStop) {
         this(locations, 0, initialTemperature, delta, dist, iterationsBeforeStop);
         this.budget = price;
+        heuristic = new Heuristic(locations, price, dist);
     }
 
     /**

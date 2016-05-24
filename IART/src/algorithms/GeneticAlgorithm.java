@@ -128,7 +128,9 @@ public class GeneticAlgorithm {
      */
     public GeneticAlgorithm(Vector<Place> locations, double price, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage, double iterationsBeforeStop) {
         this(locations, 0, generationSize, iterations, dist, pbMutation, pbMarriage, iterationsBeforeStop);
+        this.bestToPass = bestToPass;
         this.budget = price;
+        heuristic = new Heuristic(locations, price, dist);
     }
 
     /**
