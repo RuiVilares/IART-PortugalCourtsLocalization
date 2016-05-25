@@ -152,34 +152,40 @@ public class GuiMain extends JFrame{
                     submit.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            int nc = Integer.parseInt(nrCourts.getText());
-                            int bp = Integer.parseInt(bestToPass.getText());
-                            int gs = Integer.parseInt(generationSize.getText());
-                            int i = Integer.parseInt(iterations.getText());
-                            double d = Double.parseDouble(dist.getText());
-                            int pm = Integer.parseInt(pbMutation.getText());
-                            int pma = Integer.parseInt(pbMarriage.getText());
-                            double ibs = Double.parseDouble(iterationsBeforeStop.getText());
-
-                            Vector<Place> places = parser.getCities();
-
-                            GeneticAlgorithm ga = new GeneticAlgorithm(places, nc, bp, gs, i, d, pm, pma, ibs);
-                            ga.compute();
-
-                            int best = ga.getBestScore();
-                            places = ga.getBestChoice();
-
-                            parser.javascriptFileConstructor(places, "geneticAlgorithm.html");
-
-                            GuiMain.super.setVisible(true);
 
                             try {
-                                showWindow("Genetic Algorithm", "geneticAlgorithm.html");
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
+                                int nc = Integer.parseInt(nrCourts.getText());
+                                int bp = Integer.parseInt(bestToPass.getText());
+                                int gs = Integer.parseInt(generationSize.getText());
+                                int i = Integer.parseInt(iterations.getText());
+                                double d = Double.parseDouble(dist.getText());
+                                int pm = Integer.parseInt(pbMutation.getText());
+                                int pma = Integer.parseInt(pbMarriage.getText());
+                                double ibs = Double.parseDouble(iterationsBeforeStop.getText());
+
+                                Vector<Place> places = parser.getCities();
+
+                                GeneticAlgorithm ga = new GeneticAlgorithm(places, nc, bp, gs, i, d, pm, pma, ibs);
+                                ga.compute();
+
+                                int best = ga.getBestScore();
+                                places = ga.getBestChoice();
+
+                                parser.javascriptFileConstructor(places, "geneticAlgorithm.html");
+
+                                GuiMain.super.setVisible(true);
+
+                                try {
+                                    showWindow("Genetic Algorithm", "geneticAlgorithm.html");
+                                } catch (IOException e1) {
+                                    e1.printStackTrace();
+                                }
+                                main.setVisible(false);
+                                JOptionPane.showMessageDialog(GuiMain.this, "Score: " + best, "Done", JOptionPane.INFORMATION_MESSAGE);
                             }
-                            main.setVisible(false);
-                            JOptionPane.showMessageDialog(GuiMain.this, "Score: " + best, "Done", JOptionPane.INFORMATION_MESSAGE);
+                            catch (NumberFormatException nfe){
+                                JOptionPane.showMessageDialog(GuiMain.this, "Enter valid values", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
                     });
                 }
@@ -233,31 +239,36 @@ public class GuiMain extends JFrame{
                     submit.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            int nc = Integer.parseInt(nrCourts.getText());
-                            double it = Double.parseDouble(initialTemperature.getText());
-                            double del = Double.parseDouble(delta.getText());
-                            double d = Double.parseDouble(dist.getText());
-                            double ibs = Double.parseDouble(iterationsBeforeStop.getText());
-
-                            Vector<Place> places = parser.getCities();
-
-                            SimulatedAnnealing sa = new SimulatedAnnealing(places, nc, it, del, d, ibs);
-                            sa.compute();
-
-                            int best = sa.getBestScore();
-                            places = sa.getBestChoice();
-
-                            parser.javascriptFileConstructor(places, "simulatedAnnealing.html");
-
-                            GuiMain.super.setVisible(true);
-
                             try {
-                                showWindow("Simulated Annealing", "simulatedAnnealing.html");
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
+                                int nc = Integer.parseInt(nrCourts.getText());
+                                double it = Double.parseDouble(initialTemperature.getText());
+                                double del = Double.parseDouble(delta.getText());
+                                double d = Double.parseDouble(dist.getText());
+                                double ibs = Double.parseDouble(iterationsBeforeStop.getText());
+
+                                Vector<Place> places = parser.getCities();
+
+                                SimulatedAnnealing sa = new SimulatedAnnealing(places, nc, it, del, d, ibs);
+                                sa.compute();
+
+                                int best = sa.getBestScore();
+                                places = sa.getBestChoice();
+
+                                parser.javascriptFileConstructor(places, "simulatedAnnealing.html");
+
+                                GuiMain.super.setVisible(true);
+
+                                try {
+                                    showWindow("Simulated Annealing", "simulatedAnnealing.html");
+                                } catch (IOException e1) {
+                                    e1.printStackTrace();
+                                }
+                                main.setVisible(false);
+                                JOptionPane.showMessageDialog(GuiMain.this, "Score: " + best, "Done", JOptionPane.INFORMATION_MESSAGE);
                             }
-                            main.setVisible(false);
-                            JOptionPane.showMessageDialog(GuiMain.this, "Score: " + best, "Done", JOptionPane.INFORMATION_MESSAGE);
+                            catch (NumberFormatException nfe){
+                                JOptionPane.showMessageDialog(GuiMain.this, "Enter valid values", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
                     });
                 }
