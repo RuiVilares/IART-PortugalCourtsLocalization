@@ -59,6 +59,7 @@ public class GuiMain extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 parser.getCitiesByFile();
+                parser.loadPrices();
                 list1.setListData(parser.getCities());
                 list1.addMouseListener(mouseListener);
                 JOptionPane.showMessageDialog(GuiMain.this, "Cities successful loaded from file", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -70,6 +71,7 @@ public class GuiMain extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 try {
                     parser.getCitiesByWeb();
+                    parser.loadPrices();
                     list1.setListData(parser.getCities());
                     list1.addMouseListener(mouseListener);
                 } catch (IOException e1) {

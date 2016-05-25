@@ -1,0 +1,308 @@
+Lisboa - 3279
+Sintra - 1742
+Vila Nova de Gaia - 1097
+Porto - 1706
+Cascais - 2645
+Loures - 1331
+Braga - 968
+Matosinhos - 1259
+Amadora - 1652
+Almada - 1540
+Oeiras - 2161
+Gondomar - 938
+Seixal - 1304
+Guimarães - 834
+Odivelas - 1330
+Coimbra - 1061
+Santa Maria da Feira - 934
+Vila Franca de Xira - 1084
+Maia - 1021
+Vila Nova de Famalicão - 1068
+Leiria - 844
+Setúbal - 1280
+Barcelos - 1106
+Funchal - 649
+Viseu - 755
+Valongo - 932
+Viana do Castelo - 1402
+Paredes - 773
+Vila do Conde - 1706
+Torres Vedras - 1022
+Barreiro - 1032
+Aveiro - 910
+Mafra - 1287
+Penafiel - 798
+Santo Tirso - 956
+Loulé - 2585
+Ponta Delgada - 649
+Oliveira de Azeméis - 802
+Moita - 1171
+Faro - 1966
+Póvoa de Varzim - 1967
+Palmela - 1205
+Santarém - 837
+Figueira da Foz - 986
+Felgueiras - 991
+Alcobaça - 949
+Évora - 1202
+Paços de Ferreira - 765
+Amarante - 923
+Castelo Branco - 588
+Portimão - 1605
+Ovar - 947
+Pombal - 727
+Marco de Canaveses - 987
+Vila Real - 904
+Covilhã - 609
+Caldas da Rainha - 1024
+Montijo - 988
+Fafe - 718
+Sesimbra - 1308
+Vila Verde - 722
+Águeda - 640
+Lousada - 666
+Ourém - 726
+Olhão - 1551
+Ponte de Lima - 1060
+Alenquer - 805
+Santa Cruz - 701
+Guarda - 654
+Chaves - 772
+Albufeira - 2083
+Tomar - 896
+Abrantes - 753
+Trofa - 938
+Marinha Grande - 798
+Ílhavo - 981
+Silves - 1594
+Torres Novas - 675
+Cantanhede - 862
+Beja - 768
+Câmara de Lobos - 708
+Angra do Heroísmo - 640
+Bragança - 740
+Esposende - 1247
+Ribeira Grande - 910
+Espinho - 1053
+Lagos - 2542
+Santiago do Cacém - 1142
+Fundão - 487
+Anadia - 649
+Benavente - 1129
+Tondela - 547
+Peniche - 1074
+Estarreja - 701
+Lamego - 690
+Montemor-o-Velho - 753
+Tavira - 2086
+Odemira - 1408
+Lourinhã - 990
+Albergaria-a-Velha - 708
+Portalegre - 752
+Seia - 581
+Cartaxo - 757
+Porto de Mós - 695
+Mirandela - 740
+Vizela - 810
+Almeirim - 816
+Elvas - 959
+Oliveira do Bairro - 715
+Lagoa (Algarve) - 2016
+Vale de Cambra - 854
+Vagos - 834
+Arcos de Valdevez - 696
+Arouca - 590
+Salvaterra de Magos - 936
+Póvoa de Lanhoso - 751
+Machico - 590
+Azambuja - 800
+São João da Madeira - 812
+Rio Maior - 695
+Praia da Vitória - 708
+Oliveira do Hospital - 907
+Baião - 785
+Mealhada - 780
+Cinfães - 743
+Entroncamento - 858
+Celorico de Basto - 739
+Coruche - 843
+Mangualde - 521
+Soure - 640
+Monção - 1301
+Vila Real de Santo António - 1743
+Amares - 727
+Lousã - 703
+Alcochete - 1354
+Montemor-o-Novo - 1626
+Peso da Régua - 772
+Condeixa-a-Nova - 821
+Valpaços - 772
+São Pedro do Sul - 648
+Castelo de Paiva - 638
+Ponte de Sor - 772
+Cabeceiras de Basto - 868
+Caminha - 1493
+Sertã - 551
+Batalha - 861
+Macedo de Cavaleiros - 740
+Serpa - 607
+Castro Daire - 690
+Penacova - 647
+Moura - 624
+Nazaré - 1497
+Horta - 640
+Grândola - 2940
+Lagoa (Açores) - 640
+Estremoz - 981
+Sines - 1343
+Cadaval - 722
+Valença - 897
+Gouveia - 581
+Nelas - 472
+Alcanena - 518
+Arruda dos Vinhos - 1002
+Ribeira Brava - 1053
+Bombarral - 732
+Vila Pouca de Aguiar - 772
+Ansião - 636
+Miranda do Corvo - 607
+Alcácer do Sal - 1856
+Vieira do Minho - 1119
+Sabugal - 581
+Mira - 873
+Sátão - 690
+Sever do Vouga - 762
+Arganil - 454
+Tábua - 591
+Ponte da Barca - 691
+Alijó - 772
+Vendas Novas - 981
+Óbidos - 1416
+Santa Comba Dão - 577
+Calheta (Madeira) - 640
+Resende - 690
+Vila Franca do Campo - 854
+Reguengos de Monsaraz - 604
+São Brás de Alportel - 2028
+Murtosa - 751
+Vouzela - 537
+Montalegre - 679
+Oliveira de Frades - 690
+Moimenta da Beira - 690
+Sobral de Monte Agraço - 956
+Chamusca - 843
+Trancoso - 581
+Carregal do Sal - 601
+Idanha-a-Nova - 551
+Pinhel - 581
+Mortágua - 690
+Mogadouro - 740
+Aljustrel - 893
+Vila Nova de Cerveira - 1172
+Melgaço - 1301
+Paredes de Coura - 875
+Vinhais - 740
+Ponta do Sol - 910
+Ferreira do Zêzere - 815
+Torre de Moncorvo - 740
+Campo Maior - 752
+Vila Viçosa - 981
+Proença-a-Nova - 551
+Ferreira do Alentejo - 893
+Tarouca - 690
+Penalva do Castelo - 690
+São João da Pesqueira - 690
+Santana - 934
+Alpiarça - 881
+Celorico da Beira - 581
+Mondim de Basto - 772
+Miranda do Douro - 740
+Nisa - 519
+Almodôvar - 893
+Arraiolos - 832
+Santa Marta de Penaguião - 772
+Mação - 843
+Borba - 981
+Vila Nova da Barquinha - 843
+Vila Nova de Foz Côa - 581
+Alvaiázere - 644
+Vila Nova de Poiares - 907
+Castro Verde - 893
+Mértola - 893
+Terras de Bouro - 1268
+Almeida - 581
+Redondo - 500
+Belmonte - 551
+Castro Marim - 1795
+Vila Flor - 740
+Ribeira de Pena - 772
+Portel - 552
+Carrazeda de Ansiães - 740
+Sabrosa - 772
+Tabuaço - 690
+Povoação - 590
+Armamar - 690
+Figueira de Castelo Rodrigo - 581
+Figueiró dos Vinhos - 580
+Madalena - 708
+Monchique - 2053
+Penela - 794
+Murça - 772
+Vidigueira - 5537
+Aljezur - 1384
+Alandroal - 981
+Boticas - 772
+Viana do Alentejo - 981
+São Vicente - 854
+Oleiros - 551
+Penamacor - 551
+Sernancelhe - 690
+Vila do Porto - 640
+Porto Santo - 640
+Aguiar da Beira - 581
+Golegã - 660
+Velas - 708
+Ourique - 1141
+Vila do Bispo - 2019
+Mêda - 581
+Vila Nova de Paiva - 690
+Alfândega da Fé - 740
+Sousel - 752
+Fornos de Algodres - 581
+Mora - 981
+Nordeste - 708
+Cuba - 670
+Lajes do Pico - 640
+Vimioso - 740
+Avis - 752
+Pampilhosa da Serra - 907
+Mesão Frio - 772
+Santa Cruz da Graciosa - 640
+Góis - 907
+Gavião - 752
+Constância - 843
+Sardoal - 843
+Pedrógão Grande - 959
+Freixo de Espada à Cinta - 740
+Calheta (Açores) - 640
+Crato - 752
+Alter do Chão - 752
+Vila Velha de Ródão - 551
+Marvão - 752
+Vila de Rei - 551
+Manteigas - 581
+Fronteira - 752
+Castelo de Vide - 752
+São Roque do Pico - 649
+Monforte - 752
+Castanheira de Pera - 959
+Arronches - 752
+Penedono - 690
+Alcoutim - 4588
+Porto Moniz - 638
+Mourão - 981
+Alvito - 893
+Santa Cruz das Flores - 708
+Barrancos - 893
+Lajes das Flores - 640
+Corvo - 640

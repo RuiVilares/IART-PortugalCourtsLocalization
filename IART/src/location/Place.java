@@ -99,6 +99,10 @@ public class Place implements java.io.Serializable {
         this.court = court;
     }
 
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     public double getPrice() {
         return price;
     }

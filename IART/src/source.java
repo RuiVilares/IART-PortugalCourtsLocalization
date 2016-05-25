@@ -16,10 +16,13 @@ public class source {
 
         cityParser parser = new cityParser();
         //parser.getCitiesByWeb();
+        //parser.saveCities();
 
         parser.getCitiesByFile();
 
+        parser.loadPrices();
         System.out.println(parser.toString());
+
 
         Vector<Place> places = parser.getCities();
 

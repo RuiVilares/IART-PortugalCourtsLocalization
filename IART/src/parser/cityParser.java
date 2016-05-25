@@ -217,11 +217,35 @@ public class cityParser {
         }
     }
 
+    public void loadPrices(){
+        try (BufferedReader br = new BufferedReader(new FileReader("prices.txt"))) {
+            String line;
+            while (br.ready()) {
+                line = br.readLine();
+                String[] parts = line.split(" - ");
+                String name = parts[0];
+                int price = Integer.parseInt(parts[1]);
+                setPrice(name, price);
+            }
+        } catch (IOException io){
+            System.out.println(io);
+        }
+    }
+
+    private void setPrice(String name, int price){
+        for (int i = 0; i < places.size(); i++){
+            if (name.equals(places.get(i).getName())){
+                places.get(i).setPrice(price);
+                break;
+            }
+        }
+    }
+
     @Override
     public String toString() {
         String aux = "";
         for (int i = 0; i < places.size(); i++){
-            aux += places.get(i).getName() + " " + places.get(i).getCitizens() + " " + places.get(i).getCoord_x() + " " + places.get(i).getCoord_y() + "\n";
+            aux += places.get(i).getName() + " " + places.get(i).getCitizens() + " " + places.get(i).getCoord_x() + " " + places.get(i).getCoord_y() + " " + places.get(i).getPrice() + "\n";
         }
         return aux;
     }
