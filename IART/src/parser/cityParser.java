@@ -235,7 +235,7 @@ public class cityParser {
     private void setPrice(String name, int price){
         for (int i = 0; i < places.size(); i++){
             if (name.equals(places.get(i).getName())){
-                places.get(i).setPrice(price);
+                places.get(i).setPrice(price/100);
                 break;
             }
         }

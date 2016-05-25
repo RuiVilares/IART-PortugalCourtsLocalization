@@ -170,7 +170,7 @@ public class GuiMain extends JFrame{
                                 GeneticAlgorithm ga = new GeneticAlgorithm(places, nc, bp, gs, i, d, pm, pma, ibs);
                                 ga.compute();
 
-                                int best = ga.getBestScore();
+                                double best = ga.getBestScore();
                                 places = ga.getBestChoice();
 
                                 parser.javascriptFileConstructor(places, "geneticAlgorithm.html");
@@ -253,7 +253,7 @@ public class GuiMain extends JFrame{
                                 SimulatedAnnealing sa = new SimulatedAnnealing(places, nc, it, del, d, ibs);
                                 sa.compute();
 
-                                int best = sa.getBestScore();
+                                double best = sa.getBestScore();
                                 places = sa.getBestChoice();
 
                                 parser.javascriptFileConstructor(places, "simulatedAnnealing.html");
