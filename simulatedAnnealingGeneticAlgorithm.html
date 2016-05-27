@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Courts in Portugal</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+   <div id="map"></div>
+   <script>
+      function initMap() {
+        var array = [
+          { name: 'Lisboa', lat: 38.7077926 , lng: -9.1365069},
+          { name: 'Sintra', lat: 38.8355605 , lng: -9.35222694998492},
+          { name: 'Porto', lat: 41.1494512 , lng: -8.6107883},
+          { name: 'Cascais', lat: 38.72240025 , lng: -9.39690927422414},
+          { name: 'Seixal', lat: 38.6421444 , lng: -9.1028389},
+          { name: 'Santa Maria da Feira', lat: 40.9252394 , lng: -8.5426573},
+          { name: 'Vila Nova de Famalicão', lat: 41.4065175 , lng: -8.518748},
+          { name: 'Valongo', lat: 41.20492915 , lng: -8.50453520276416},
+          { name: 'Viana do Castelo', lat: 41.6951435 , lng: -8.8299056},
+          { name: 'Mafra', lat: 38.9635628 , lng: -9.32437454670948},
+          { name: 'Penafiel', lat: 41.144188 , lng: -8.30238332776531},
+          { name: 'Póvoa de Varzim', lat: 41.4183007 , lng: -8.74871758388824},
+          { name: 'Amarante', lat: 41.2689121 , lng: -8.0788138},
+          { name: 'Fafe', lat: 41.47002515 , lng: -8.14792333933359},
+          { name: 'Águeda', lat: 40.59478055 , lng: -8.41603218517237},
+          { name: 'Ponte de Lima', lat: 41.7675021 , lng: -8.5830991},
+          { name: 'Santa Cruz', lat: 41.90410385 , lng: -6.95747022125453},
+          { name: 'Abrantes', lat: 39.4398186 , lng: -8.1284179424526},
+          { name: 'Trofa', lat: 41.30272 , lng: -8.56771395619606},
+          { name: 'Beja', lat: 38.0156043 , lng: -7.865254},
+          { name: 'Fundão', lat: 40.12503595 , lng: -7.51110161721762},
+          { name: 'Estarreja', lat: 40.7613416 , lng: -8.57836824797893},
+          { name: 'Cartaxo', lat: 39.13505315 , lng: -8.79336666059148},
+          { name: 'Coruche', lat: 38.95778 , lng: -8.5284999},
+          { name: 'Monção', lat: 42.0787023 , lng: -8.48139},
+          { name: 'Alcochete', lat: 38.748789 , lng: -8.97326605041188},
+          { name: 'Estremoz', lat: 38.8454127 , lng: -7.5861344},
+          { name: 'Ponte da Barca', lat: 41.8076477 , lng: -8.4164279},
+          { name: 'Alijó', lat: 41.2916022 , lng: -7.46914520603878},
+          { name: 'Montalegre', lat: 41.7569917 , lng: -7.85664638172274},
+          { name: 'Chamusca', lat: 39.2674423 , lng: -8.39152450383851},
+          { name: 'Carregal do Sal', lat: 40.4334074 , lng: -8.0030202},
+          { name: 'Idanha-a-Nova', lat: 39.87697385 , lng: -7.11423153397999},
+          { name: 'Melgaço', lat: 42.03905405 , lng: -8.19659458781411},
+          { name: 'Ferreira do Zêzere', lat: 39.72386125 , lng: -8.33239533108553},
+          { name: 'Campo Maior', lat: 39.01209575 , lng: -7.0450532233931},
+          { name: 'Penalva do Castelo', lat: 40.6753375 , lng: -7.6591109864442},
+          { name: 'Mértola', lat: 37.64075465 , lng: -7.67074818590483},
+          { name: 'Terras de Bouro', lat: 41.7192045 , lng: -8.310257},
+          { name: 'Ribeira de Pena', lat: 41.5130888 , lng: -7.82164656210839},
+          { name: 'Alfândega da Fé', lat: 41.3419743 , lng: -6.9611438},
+          { name: 'Nordeste', lat: 37.8334876 , lng: -25.1468597},
+          { name: 'Cuba', lat: 38.16521 , lng: -7.8925299},
+          { name: 'Pedrógão Grande', lat: 39.9169584 , lng: -8.1455639},
+          { name: 'Marvão', lat: 39.40407765 , lng: -7.35941080831732},
+          { name: 'Manteigas', lat: 40.38651155 , lng: -7.53993912036881},
+          { name: 'Fronteira', lat: 39.0558091 , lng: -7.6478656},
+          { name: 'Arronches', lat: 39.1070925 , lng: -7.25298832975994},
+          { name: 'Mourão', lat: 38.2975049 , lng: -7.22231382909302},
+          { name: 'Corvo', lat: 39.6981233 , lng: -31.1052930436502},
+        ];
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+           zoom: 4,
+           center: array[0]
+        });
+
+       array.forEach(function(ele) {
+           new google.maps.Marker({
+               position: ele,
+               map: map,
+               title: ele.name
+           })});
+       }
+   </script>
+   <script async defer
+       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbzBzA_844mIB43D_gqph92jB8Q4-nUUQ&callback=initMap">
+   </script>
+  </body>
+</html>
