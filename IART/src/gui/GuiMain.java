@@ -108,7 +108,7 @@ public class GuiMain extends JFrame{
                 if (parser.getCities().size() > 0) {
                     JFrame main = new JFrame("Genetic Algorithm");
                     main.setSize(300, 400);
-                    main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    main.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
                     String[] modeString = { "Nr of Courts", "Price"};
                     JComboBox modeList = new JComboBox(modeString);
@@ -158,16 +158,15 @@ public class GuiMain extends JFrame{
                     main.pack();
                     main.setVisible(true);
 
-                    GuiMain.super.setVisible(false);
-
                     submit.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
 
                             try {
-                                JOptionPane loading = new JOptionPane("Genetic Algorithm will start working\nPlease, confirm to continue!", JOptionPane.INFORMATION_MESSAGE);
-                                JDialog dialog = loading.createDialog(null, "Genetic Algorithm");
-                                dialog.setVisible(true);
+                                JFrame someFrame = new JFrame("Running...");
+                                someFrame.setSize(250, 50);
+                                someFrame.setVisible(true);
+                                main.setVisible(false);
                                 long startTime = System.currentTimeMillis();
                                 int bp = Integer.parseInt(bestToPass.getText());
                                 int gs = Integer.parseInt(generationSize.getText());
@@ -197,17 +196,14 @@ public class GuiMain extends JFrame{
 
                                 parser.javascriptFileConstructor(places, "geneticAlgorithm.html");
 
-                                GuiMain.super.setVisible(true);
-
                                 try {
-                                    showWindow("Genetic Algorithm", "geneticAlgorithm.html");
+                                    showWindow("Genetic Algorithm" + " - " + modeList.getSelectedItem(), "geneticAlgorithm.html");
                                 } catch (IOException e1) {
                                     e1.printStackTrace();
                                 }
-                                main.setVisible(false);
                                 long endTime   = System.currentTimeMillis();
                                 long totalTime = endTime - startTime;
-                                dialog.setVisible(false);
+                                someFrame.setVisible(false);
                                 JOptionPane.showMessageDialog(GuiMain.this, "Score: " + best + "\nRunning time: " + totalTime + " ms", "Done", JOptionPane.INFORMATION_MESSAGE);
                             }
                             catch (NumberFormatException nfe){
@@ -227,7 +223,7 @@ public class GuiMain extends JFrame{
                 if (parser.getCities().size() > 0) {
                     JFrame main = new JFrame("Simulated Annealing");
                     main.setSize(300, 400);
-                    main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    main.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
                     String[] modeString = { "Nr of Courts", "Price"};
                     JComboBox modeList = new JComboBox(modeString);
@@ -268,15 +264,14 @@ public class GuiMain extends JFrame{
                     main.pack();
                     main.setVisible(true);
 
-                    GuiMain.super.setVisible(false);
-
                     submit.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             try {
-                                JOptionPane loading = new JOptionPane("Simulated Annealing will start working\n" + "Please, confirm to continue!", JOptionPane.INFORMATION_MESSAGE);
-                                JDialog dialog = loading.createDialog(null, "Simulated Annealing");
-                                dialog.setVisible(true);
+                                JFrame someFrame = new JFrame("Running...");
+                                someFrame.setSize(250, 50);
+                                someFrame.setVisible(true);
+                                main.setVisible(false);
                                 long startTime = System.currentTimeMillis();
                                 double it = Double.parseDouble(initialTemperature.getText());
                                 double del = Double.parseDouble(delta.getText());
@@ -303,17 +298,14 @@ public class GuiMain extends JFrame{
 
                                 parser.javascriptFileConstructor(places, "simulatedAnnealing.html");
 
-                                GuiMain.super.setVisible(true);
-
                                 try {
-                                    showWindow("Simulated Annealing", "simulatedAnnealing.html");
+                                    showWindow("Simulated Annealing" + " - " + modeList.getSelectedItem(), "simulatedAnnealing.html");
                                 } catch (IOException e1) {
                                     e1.printStackTrace();
                                 }
-                                main.setVisible(false);
                                 long endTime   = System.currentTimeMillis();
                                 long totalTime = endTime - startTime;
-                                dialog.setVisible(false);
+                                someFrame.setVisible(false);
                                 JOptionPane.showMessageDialog(GuiMain.this, "Score: " + best + "\nRunning time: " + totalTime + " ms", "Done", JOptionPane.INFORMATION_MESSAGE);
                             }
                             catch (NumberFormatException nfe){
@@ -334,7 +326,7 @@ public class GuiMain extends JFrame{
         BrowserView browserView = new BrowserView(browser);
 
         JFrame frame = new JFrame(title);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         frame.add(browserView, BorderLayout.CENTER);
         frame.setSize(700, 500);
         frame.setLocationRelativeTo(null);
