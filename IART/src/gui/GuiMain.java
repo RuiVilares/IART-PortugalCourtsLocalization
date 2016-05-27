@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Arc2D;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -106,8 +107,14 @@ public class GuiMain extends JFrame{
 
                 if (parser.getCities().size() > 0) {
                     JFrame main = new JFrame("Genetic Algorithm");
+                    main.setSize(300, 400);
                     main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JTextField nrCourts = new JTextField("50", 2);
+
+                    String[] modeString = { "Nr of Courts", "Price"};
+                    JComboBox modeList = new JComboBox(modeString);
+                    modeList.setSelectedIndex(0);
+
+                    JTextField variable = new JTextField("50", 2);
                     JTextField bestToPass = new JTextField("5", 2);
                     JTextField generationSize = new JTextField("20", 2);
                     JTextField iterations = new JTextField("500", 2);
@@ -126,8 +133,10 @@ public class GuiMain extends JFrame{
                     gui.add(labels, BorderLayout.WEST);
                     gui.add(controls, BorderLayout.CENTER);
 
-                    labels.add(new JLabel("Nr courts: "));
-                    controls.add(nrCourts);
+                    labels.add(new JLabel("Select mode"));
+                    controls.add(modeList);
+                    labels.add(new JLabel("Variable: "));
+                    controls.add(variable);
                     labels.add(new JLabel("Best to pass: "));
                     controls.add(bestToPass);
                     labels.add(new JLabel("Generation size: "));
@@ -156,7 +165,10 @@ public class GuiMain extends JFrame{
                         public void actionPerformed(ActionEvent e) {
 
                             try {
-                                int nc = Integer.parseInt(nrCourts.getText());
+                                JOptionPane loading = new JOptionPane("Genetic Algorithm will start working\nPlease, confirm to continue!", JOptionPane.INFORMATION_MESSAGE);
+                                JDialog dialog = loading.createDialog(null, "Genetic Algorithm");
+                                dialog.setVisible(true);
+                                long startTime = System.currentTimeMillis();
                                 int bp = Integer.parseInt(bestToPass.getText());
                                 int gs = Integer.parseInt(generationSize.getText());
                                 int i = Integer.parseInt(iterations.getText());
@@ -167,10 +179,20 @@ public class GuiMain extends JFrame{
 
                                 Vector<Place> places = parser.getCities();
 
-                                GeneticAlgorithm ga = new GeneticAlgorithm(places, nc, bp, gs, i, d, pm, pma, ibs);
+                                GeneticAlgorithm ga;
+
+                                if (modeList.getSelectedIndex() == 0) {
+                                    int var = Integer.parseInt(variable.getText());
+                                    ga = new GeneticAlgorithm(places, var, bp, gs, i, d, pm, pma, ibs);
+                                }
+                                else {
+                                    Double var = Double.parseDouble(variable.getText());
+                                    ga = new GeneticAlgorithm(places, var, bp, gs, i, d, pm, pma, ibs);
+                                }
+
                                 ga.compute();
 
-                                double best = ga.getBestScore();
+                                int best = ga.getBestScore();
                                 places = ga.getBestChoice();
 
                                 parser.javascriptFileConstructor(places, "geneticAlgorithm.html");
@@ -183,7 +205,10 @@ public class GuiMain extends JFrame{
                                     e1.printStackTrace();
                                 }
                                 main.setVisible(false);
-                                JOptionPane.showMessageDialog(GuiMain.this, "Score: " + best, "Done", JOptionPane.INFORMATION_MESSAGE);
+                                long endTime   = System.currentTimeMillis();
+                                long totalTime = endTime - startTime;
+                                dialog.setVisible(false);
+                                JOptionPane.showMessageDialog(GuiMain.this, "Score: " + best + "\nRunning time: " + totalTime + " ms", "Done", JOptionPane.INFORMATION_MESSAGE);
                             }
                             catch (NumberFormatException nfe){
                                 JOptionPane.showMessageDialog(GuiMain.this, "Enter valid values", "Error", JOptionPane.ERROR_MESSAGE);
@@ -201,9 +226,14 @@ public class GuiMain extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 if (parser.getCities().size() > 0) {
                     JFrame main = new JFrame("Simulated Annealing");
-
+                    main.setSize(300, 400);
                     main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JTextField nrCourts = new JTextField("50", 2);
+
+                    String[] modeString = { "Nr of Courts", "Price"};
+                    JComboBox modeList = new JComboBox(modeString);
+                    modeList.setSelectedIndex(0);
+
+                    JTextField variable = new JTextField("50", 2);
                     JTextField initialTemperature = new JTextField("50", 2);
                     JTextField delta = new JTextField("0.01", 2);
                     JTextField dist = new JTextField("1", 2);
@@ -219,8 +249,10 @@ public class GuiMain extends JFrame{
                     gui.add(labels, BorderLayout.WEST);
                     gui.add(controls, BorderLayout.CENTER);
 
-                    labels.add(new JLabel("Nr courts: "));
-                    controls.add(nrCourts);
+                    labels.add(new JLabel("Select mode"));
+                    controls.add(modeList);
+                    labels.add(new JLabel("Variable: "));
+                    controls.add(variable);
                     labels.add(new JLabel("Initial temperature: "));
                     controls.add(initialTemperature);
                     labels.add(new JLabel("Delta: "));
@@ -242,7 +274,10 @@ public class GuiMain extends JFrame{
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             try {
-                                int nc = Integer.parseInt(nrCourts.getText());
+                                JOptionPane loading = new JOptionPane("Simulated Annealing will start working\n" + "Please, confirm to continue!", JOptionPane.INFORMATION_MESSAGE);
+                                JDialog dialog = loading.createDialog(null, "Simulated Annealing");
+                                dialog.setVisible(true);
+                                long startTime = System.currentTimeMillis();
                                 double it = Double.parseDouble(initialTemperature.getText());
                                 double del = Double.parseDouble(delta.getText());
                                 double d = Double.parseDouble(dist.getText());
@@ -250,10 +285,20 @@ public class GuiMain extends JFrame{
 
                                 Vector<Place> places = parser.getCities();
 
-                                SimulatedAnnealing sa = new SimulatedAnnealing(places, nc, it, del, d, ibs);
+                                SimulatedAnnealing sa;
+
+                                if (modeList.getSelectedIndex() == 0) {
+                                    int var = Integer.parseInt(variable.getText());
+                                    sa = new SimulatedAnnealing(places, var, it, del, d, ibs);
+                                }
+                                else {
+                                    Double var = Double.parseDouble(variable.getText());
+                                    sa = new SimulatedAnnealing(places, var, it, del, d, ibs);
+                                }
+
                                 sa.compute();
 
-                                double best = sa.getBestScore();
+                                int best = sa.getBestScore();
                                 places = sa.getBestChoice();
 
                                 parser.javascriptFileConstructor(places, "simulatedAnnealing.html");
@@ -266,7 +311,10 @@ public class GuiMain extends JFrame{
                                     e1.printStackTrace();
                                 }
                                 main.setVisible(false);
-                                JOptionPane.showMessageDialog(GuiMain.this, "Score: " + best, "Done", JOptionPane.INFORMATION_MESSAGE);
+                                long endTime   = System.currentTimeMillis();
+                                long totalTime = endTime - startTime;
+                                dialog.setVisible(false);
+                                JOptionPane.showMessageDialog(GuiMain.this, "Score: " + best + "\nRunning time: " + totalTime + " ms", "Done", JOptionPane.INFORMATION_MESSAGE);
                             }
                             catch (NumberFormatException nfe){
                                 JOptionPane.showMessageDialog(GuiMain.this, "Enter valid values", "Error", JOptionPane.ERROR_MESSAGE);
