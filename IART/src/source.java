@@ -28,7 +28,7 @@ public class source {
 
 
         //GeneticAlgorithm(Vector<Place> locations, int nCourts, int bestToPass, int generationSize, int iterations, double dist, int pbMutation, int pbMarriage, double iterationsBeforeStop)
-        GeneticAlgorithm ga = new GeneticAlgorithm(places, 50, 5, 20, 500, 0.5, 25, 75, 0.5);
+        GeneticAlgorithm ga = new GeneticAlgorithm(places, 5.0, 5, 20, 500, 0.5, 25, 75, 0.5);
         System.err.println();
         System.err.println();
         System.err.println("--------------------");

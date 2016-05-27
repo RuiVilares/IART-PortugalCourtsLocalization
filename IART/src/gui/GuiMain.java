@@ -185,7 +185,7 @@ public class GuiMain extends JFrame{
                                     ga = new GeneticAlgorithm(places, var, bp, gs, i, d, pm, pma, ibs);
                                 }
                                 else {
-                                    Double var = Double.parseDouble(variable.getText());
+                                    double var = Double.parseDouble(variable.getText());
                                     ga = new GeneticAlgorithm(places, var, bp, gs, i, d, pm, pma, ibs);
                                 }
 
@@ -287,7 +287,7 @@ public class GuiMain extends JFrame{
                                     sa = new SimulatedAnnealing(places, var, it, del, d, ibs);
                                 }
                                 else {
-                                    Double var = Double.parseDouble(variable.getText());
+                                    double var = Double.parseDouble(variable.getText());
                                     sa = new SimulatedAnnealing(places, var, it, del, d, ibs);
                                 }
 

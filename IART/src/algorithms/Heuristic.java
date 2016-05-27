@@ -86,12 +86,11 @@ public class Heuristic {
                     avoid = 2;
                 }
 
-                price += locations.get(i).getPrice();
-
-                avgCitizens += locations.get(i).getCitizens();
-
                 score -= (avoid * minimum * locations.get(i).getPrice() * locations.get(i).getCitizens());
+            } else {
+                price += locations.get(i).getPrice();
             }
+            avgCitizens += locations.get(i).getCitizens();
         }
 
         avgCitizens /= locations.size();
